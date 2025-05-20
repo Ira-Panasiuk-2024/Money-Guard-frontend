@@ -2,7 +2,7 @@ import * as Yup from "yup";
 
 export const validationSchemaRegister = Yup.object({
   name: Yup.string()
-    .min(2, "Minimum length is 2 characters")
+    .min(3, "Minimum length is 3 characters")
     .max(20, "Maximum length is 20 characters")
     .required("Required"),
   email: Yup.string()
