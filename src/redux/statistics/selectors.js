@@ -3,6 +3,9 @@ export const selectExpenseCategories = (state) =>
 export const selectIncomeCategories = (state) =>
  state.statistics.incomeCategories;
 
+export const selectStatisticsCategories = (state) =>
+ state.statistics.categories;
+
 export const selectTotalExpense = (state) => state.statistics.totalExpense;
 export const selectTotalIncome = (state) => state.statistics.totalIncome;
 export const selectTotalBalance = (state) => state.statistics.totalBalance;
