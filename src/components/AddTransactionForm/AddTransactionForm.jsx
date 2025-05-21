@@ -8,8 +8,9 @@ import { toast } from "react-toastify";
 import { IoIosArrowDown } from "react-icons/io";
 import { BiCalendar } from "react-icons/bi";
 import {
- selectCategories,
  selectPage,
+ selectIncomeCategories,
+ selectExpenseCategories,
 } from "../../redux/transactions/selectors";
 import {
  addTransactions,
@@ -25,20 +26,20 @@ import Button from "../Button/Button";
 const AddTransactionForm = ({ closeModal }) => {
  const [startDate, setStartDate] = useState(new Date());
  const [isChecked, setIsChecked] = useState(true);
- const categories = useSelector(selectCategories);
+
+ const incomeCategories = useSelector(selectIncomeCategories);
+ const expenseCategories = useSelector(selectExpenseCategories);
  const page = useSelector(selectPage);
 
  const dispatch = useDispatch();
 
  useEffect(() => {
-  if (!categories || categories.length === 0) {
+  if (incomeCategories.length === 0 && expenseCategories.length === 0) {
    dispatch(getCategories());
   }
- }, [dispatch, categories]);
+ }, [dispatch, incomeCategories, expenseCategories]);
 
- const availableCategories = categories.filter(
-  (category) => category.type === (isChecked ? "expense" : "income")
- );
+ const availableCategories = isChecked ? expenseCategories : incomeCategories;
 
  const {
   register,
@@ -61,6 +62,7 @@ const AddTransactionForm = ({ closeModal }) => {
  useEffect(() => {
   if (availableCategories.length > 0) {
    const currentCategoryId = getValues("categoryId");
+
    const isCurrentCategoryAvailable = availableCategories.some(
     (cat) => cat._id === currentCategoryId
    );
@@ -91,9 +93,10 @@ const AddTransactionForm = ({ closeModal }) => {
     closeModal(() => dispatch(setAddTransaction(false)));
    })
    .catch((error) => {
-    console.error(`Failed to add transaction: ${error.message}`);
+    console.error(`Failed to add transaction:`, error);
+
     const errorMessage = error.message || "Something went wrong";
-    if (errorMessage.includes("does not match")) {
+    if (error.data?.message && error.data.message.includes("does not match")) {
      toast.error(
       "Category type does not match transaction type. Please select a compatible category."
      );

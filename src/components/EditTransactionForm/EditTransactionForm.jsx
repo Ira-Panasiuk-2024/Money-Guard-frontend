@@ -8,11 +8,17 @@ import css from "./EditTransactionForm.module.css";
 import Button from "../Button/Button";
 import ButtonCancel from "../ButtonCancel/ButtonCancel";
 import { setEditTransaction } from "../../redux/transactions/slice";
-import { updateTransaction } from "../../redux/transactions/operations";
+import {
+ updateTransaction,
+ getCategories,
+} from "../../redux/transactions/operations";
 import { toast } from "react-toastify";
 import { BiCalendar } from "react-icons/bi";
 import { useEffect, useState } from "react";
-import { selectCategories } from "../../redux/transactions/selectors";
+import {
+ selectIncomeCategories,
+ selectExpenseCategories,
+} from "../../redux/transactions/selectors";
 
 const validationSchema = yup.object().shape({
  sum: yup
@@ -31,7 +37,9 @@ const validationSchema = yup.object().shape({
 
 const EditTransactionForm = ({ transaction }) => {
  const dispatch = useDispatch();
- const categories = useSelector(selectCategories);
+
+ const incomeCategories = useSelector(selectIncomeCategories);
+ const expenseCategories = useSelector(selectExpenseCategories);
  const [availableCategories, setAvailableCategories] = useState([]);
 
  const {
@@ -56,30 +64,32 @@ const EditTransactionForm = ({ transaction }) => {
  const watchType = watch("type");
 
  useEffect(() => {
-  if (categories && categories.length > 0) {
-   const filteredCategories = categories.filter(
-    (category) => category.type === watchType
-   );
-   setAvailableCategories(filteredCategories);
+  if (incomeCategories.length === 0 && expenseCategories.length === 0) {
+   dispatch(getCategories());
+  }
+ }, [dispatch, incomeCategories, expenseCategories]);
 
-   const currentCategoryId = getValues("categoryId");
-   const isCurrentCategoryAvailable = filteredCategories.some(
-    (cat) => cat._id === currentCategoryId
-   );
+ useEffect(() => {
+  let filteredCategories = [];
+  if (watchType === "expense") {
+   filteredCategories = expenseCategories;
+  } else if (watchType === "income") {
+   filteredCategories = incomeCategories;
+  }
 
-   if (!isCurrentCategoryAvailable) {
-    const newCategory = filteredCategories[0];
-    if (newCategory) {
-     setValue("categoryId", newCategory._id);
-    } else {
-     setValue("categoryId", "");
-    }
-   }
-  } else {
-   setAvailableCategories([]);
+  setAvailableCategories(filteredCategories);
+
+  const currentCategoryId = getValues("categoryId");
+  const isCurrentCategoryAvailable = filteredCategories.some(
+   (cat) => cat._id === currentCategoryId
+  );
+
+  if (!isCurrentCategoryAvailable && filteredCategories.length > 0) {
+   setValue("categoryId", filteredCategories[0]._id);
+  } else if (filteredCategories.length === 0) {
    setValue("categoryId", "");
   }
- }, [watchType, categories, setValue, getValues]);
+ }, [watchType, incomeCategories, expenseCategories, setValue, getValues]);
 
  const handleTypeChange = (type) => {
   if (type !== watchType) {
@@ -102,10 +112,9 @@ const EditTransactionForm = ({ transaction }) => {
    toast.success("Transaction updated successfully!");
    dispatch(setEditTransaction(null));
   } catch (error) {
-   console.error(`Failed to update transaction: ${error.message}`);
-
+   console.error(`Failed to update transaction:`, error);
    const errorMessage = error.message || "Something went wrong";
-   if (errorMessage.includes("does not match")) {
+   if (error.data?.message && error.data.message.includes("does not match")) {
     toast.error(
      "Category type does not match transaction type. Please select a compatible category."
     );

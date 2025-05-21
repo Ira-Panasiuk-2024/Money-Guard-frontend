@@ -55,10 +55,16 @@ export const deleteTransactions = createAsyncThunk(
 
 export const getCategories = createAsyncThunk(
  "categories/all",
- async (_, thunkApi) => {
+
+ async (type = null, thunkApi) => {
   try {
    const token = thunkApi.getState().auth.token;
-   const { data } = await useAxios(token).get("/categories");
+   let url = "/categories";
+
+   if (type) {
+    url += `?type=${type}`;
+   }
+   const { data } = await useAxios(token).get(url);
    return data.categories;
   } catch (error) {
    return thunkApi.rejectWithValue(

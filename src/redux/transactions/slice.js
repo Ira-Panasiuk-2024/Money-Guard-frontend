@@ -4,13 +4,17 @@ import {
  deleteTransactions,
  getCategories,
  updateTransaction,
+ addTransactions,
 } from "./operations";
 import { selectPage, selectPerPage, selectTotalPages } from "./selectors";
 import { useSelector } from "react-redux";
 
 const transactions = {
  items: [],
- category: [],
+
+ incomeCategories: [],
+ expenseCategories: [],
+
  currentTransaction: null,
  transactionToDelete: null,
  isOpenAddTransaction: false,
@@ -18,6 +22,8 @@ const transactions = {
  page: 0,
  totalPages: 1,
  isOpenEditTransaction: false,
+ isLoading: false,
+ error: null,
 };
 
 export const useTransactionsPagination = () => {
@@ -47,10 +53,12 @@ const transactionsSlice = createSlice({
   setPage(state, { payload }) {
    state.page = payload;
   },
+  setOpenEditTransaction(state, action) {
+   state.isOpenEditTransaction = action.payload;
+  },
  },
  extraReducers: (builder) => {
   builder
-
    .addCase(getTransactions.pending, (state) => {
     state.isLoading = true;
     state.error = null;
@@ -75,17 +83,28 @@ const transactionsSlice = createSlice({
     state.error = payload;
    })
 
+   .addCase(addTransactions.pending, (state) => {
+    state.isLoading = true;
+    state.error = null;
+   })
+   .addCase(addTransactions.fulfilled, (state, { payload }) => {
+    state.isLoading = false;
+    state.items.unshift(payload.transaction);
+   })
+   .addCase(addTransactions.rejected, (state, { payload }) => {
+    state.isLoading = false;
+    state.error = payload;
+   })
+
    .addCase(deleteTransactions.pending, (state) => {
     state.isLoading = true;
     state.error = null;
    })
    .addCase(deleteTransactions.fulfilled, (state, { payload }) => {
     state.isLoading = false;
-
     state.items = state.items.filter(
      (transaction) => transaction._id !== payload.id
     );
-
     state.transactionToDelete = null;
    })
    .addCase(deleteTransactions.rejected, (state, { payload }) => {
@@ -98,9 +117,17 @@ const transactionsSlice = createSlice({
     state.isLoading = true;
     state.error = null;
    })
-   .addCase(getCategories.fulfilled, (state, { payload }) => {
+   .addCase(getCategories.fulfilled, (state, { payload, meta }) => {
     state.isLoading = false;
-    state.category = payload;
+
+    if (meta.arg === "income") {
+     state.incomeCategories = payload;
+    } else if (meta.arg === "expense") {
+     state.expenseCategories = payload;
+    } else {
+     state.incomeCategories = payload.filter((cat) => cat.type === "income");
+     state.expenseCategories = payload.filter((cat) => cat.type === "expense");
+    }
    })
    .addCase(getCategories.rejected, (state, { payload }) => {
     state.isLoading = false;
@@ -113,14 +140,12 @@ const transactionsSlice = createSlice({
    })
    .addCase(updateTransaction.fulfilled, (state, { payload }) => {
     state.isLoading = false;
-
     const index = state.items.findIndex(
      (item) => item._id === payload.transaction._id
     );
     if (index !== -1) {
      state.items[index] = payload.transaction;
     }
-
     state.currentTransaction = null;
    })
    .addCase(updateTransaction.rejected, (state, { payload }) => {
@@ -133,7 +158,12 @@ const transactionsSlice = createSlice({
 
 const transactionsReducer = transactionsSlice.reducer;
 
-export const { setAddTransaction, setEditTransaction, setTransactionToDelete, setPage } =
- transactionsSlice.actions;
+export const {
+ setAddTransaction,
+ setEditTransaction,
+ setTransactionToDelete,
+ setPage,
+ setOpenEditTransaction,
+} = transactionsSlice.actions;
 
 export default transactionsReducer;

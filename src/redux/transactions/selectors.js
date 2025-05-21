@@ -15,7 +15,10 @@ export const selectPerPage = (state) => state.transactions.perPage;
 
 export const selectTotalPages = (state) => state.transactions.totalPages;
 
-export const selectCategories = (state) => state.transactions.category;
+export const selectIncomeCategories = (state) =>
+ state.transactions.incomeCategories;
+export const selectExpenseCategories = (state) =>
+ state.transactions.expenseCategories;
 
 export const selectOpenEditTransaction = (state) =>
  state.transactions.isOpenEditTransaction;
