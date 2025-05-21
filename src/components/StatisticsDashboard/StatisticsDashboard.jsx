@@ -3,14 +3,14 @@ import { useEffect, useState } from "react";
 import { fetchStatistics } from "../../redux/statistics/operations";
 import s from "./StatisticsDashboard.module.css";
 import { months, years } from "../../helpers/statistics";
-import { selectMonth, selectYear } from "../../redux/statistics/selectors";
+import { selectStatisticsMonth, selectStatisticsYear } from "../../redux/statistics/selectors";
 import { IoIosArrowDown } from "react-icons/io";
 
 const StatisticsDashboard = () => {
   const dispatch = useDispatch();
 
-  const savedMonth = useSelector(selectMonth);
-  const savedYear = useSelector(selectYear);
+  const savedMonth = useSelector(selectStatisticsMonth);
+  const savedYear = useSelector(selectStatisticsYear);
   const [month, setMonth] = useState(savedMonth || new Date().getMonth() + 1);
   const [year, setYear] = useState(savedYear || new Date().getFullYear());
 
