@@ -4,8 +4,8 @@ export const selectUser = (state) => state.auth.user;
 
 export const selectToken = (state) => state.auth.token;
 
-export const selectBalance = (state) => state.auth.user.balance;
+export const selectBalance = (state) => state.auth.user.balance || 0;
 
-export const selectComfirmLogout = (state) => state.auth.isComfirmLogout;
+export const selectConfirmLogout = (state) => state.auth.isConfirmLogout;
 
 export const selectUserProfile = (state) => state.auth.isUserOpen;

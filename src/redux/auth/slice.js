@@ -19,7 +19,7 @@ const auth = {
  },
  token: null,
  isLoggedIn: false,
- isComfirmLogout: false,
+ isConfirmLogout: false,
  isUserOpen: false,
 };
 
@@ -38,8 +38,8 @@ const authSlice = createSlice({
  name: "auth",
  initialState: auth,
  reducers: {
-  setComfirmLogout(state, action) {
-   state.isComfirmLogout = action.payload;
+  setConfirmLogout(state, action) {
+   state.isConfirmLogout = action.payload;
   },
   setOpenUserProfile(state, action) {
    state.isUserOpen = action.payload;
@@ -59,15 +59,19 @@ const authSlice = createSlice({
     state.isLoggedIn = true;
    })
    .addCase(logoutUser.fulfilled, (state) => {
-    state.user = { name: null, email: null };
+    state.user = { name: null, email: null, photo: null, balance: 0 };
     state.token = null;
     state.isLoggedIn = false;
+    state.isConfirmLogout = false;
+    state.isUserOpen = false;
    })
    .addCase(logoutUser.rejected, (state, action) => {
     if (action.payload === 401) {
-     state.user = { name: null, email: null };
+     state.user = { name: null, email: null, photo: null, balance: 0 };
      state.token = null;
      state.isLoggedIn = false;
+     state.isConfirmLogout = false;
+     state.isUserOpen = false;
     }
    })
    .addCase(deleteTransactions.fulfilled, (state, action) => {
@@ -84,8 +88,11 @@ const authSlice = createSlice({
    })
    .addCase(currentUser.rejected, (state, { payload }) => {
     if (payload === 401) {
+     state.user = { name: null, email: null, photo: null, balance: 0 };
      state.token = null;
      state.isLoggedIn = false;
+     state.isConfirmLogout = false;
+     state.isUserOpen = false;
     }
    })
    .addCase(updateUser.fulfilled, (state, action) => {
@@ -96,5 +103,5 @@ const authSlice = createSlice({
 });
 
 const authReducer = authSlice.reducer;
-export const { setComfirmLogout, setOpenUserProfile } = authSlice.actions;
+export const { setConfirmLogout, setOpenUserProfile } = authSlice.actions;
 export default authReducer;

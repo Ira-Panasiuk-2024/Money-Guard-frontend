@@ -4,7 +4,7 @@ import s from "./Header.module.css";
 import { useMediaQuery } from "react-responsive";
 import { RxExit } from "react-icons/rx";
 import {
-  setComfirmLogout,
+  setConfirmLogout,
   setOpenUserProfile,
   useAuth,
 } from "../../redux/auth/slice.js";
@@ -15,8 +15,8 @@ const Header = () => {
   const isBigScreen = useMediaQuery({ query: "(min-width: 768px)" });
   const { user } = useAuth();
   const dispatch = useDispatch();
-  const handleComfirmLogout = () => {
-    dispatch(setComfirmLogout(true));
+  const handleConfirmLogout = () => {
+    dispatch(setConfirmLogout(true));
   };
   const handleOpenUserProfile = () => {
     dispatch(setOpenUserProfile(true));
@@ -39,7 +39,7 @@ const Header = () => {
           </button>
           <div className={s.line}></div>
           <button
-            onClick={handleComfirmLogout}
+            onClick={handleConfirmLogout}
             type="button"
             className={s.exitBtn}
           >
