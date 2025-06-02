@@ -7,10 +7,14 @@ import { useDispatch, useSelector } from "react-redux";
 import css from "./EditTransactionForm.module.css";
 import Button from "../Button/Button";
 import ButtonCancel from "../ButtonCancel/ButtonCancel";
-import { setEditTransaction } from "../../redux/transactions/slice";
+import {
+ setEditTransaction,
+ useTransactionsPagination,
+} from "../../redux/transactions/slice";
 import {
  updateTransaction,
  getCategories,
+ getTransactions,
 } from "../../redux/transactions/operations";
 import { toast } from "react-toastify";
 import { BiCalendar } from "react-icons/bi";
@@ -19,6 +23,7 @@ import {
  selectIncomeCategories,
  selectExpenseCategories,
 } from "../../redux/transactions/selectors";
+import { format, parseISO } from "date-fns"; // ВИДАЛЕНО: isValid
 
 const validationSchema = yup.object().shape({
  sum: yup
@@ -37,6 +42,7 @@ const validationSchema = yup.object().shape({
 
 const EditTransactionForm = ({ transaction }) => {
  const dispatch = useDispatch();
+ const pagination = useTransactionsPagination();
 
  const incomeCategories = useSelector(selectIncomeCategories);
  const expenseCategories = useSelector(selectExpenseCategories);
@@ -54,7 +60,7 @@ const EditTransactionForm = ({ transaction }) => {
   resolver: yupResolver(validationSchema),
   defaultValues: {
    sum: transaction?.sum,
-   date: transaction?.date ? new Date(transaction?.date) : null,
+   date: transaction?.date ? parseISO(transaction.date) : null,
    comment: transaction?.comment || "",
    type: transaction?.type || "expense",
    categoryId: transaction?.categoryId?._id || transaction?.categoryId || "",
@@ -101,7 +107,7 @@ const EditTransactionForm = ({ transaction }) => {
   const updatedTransaction = {
    _id: transaction._id,
    sum: data.sum,
-   date: data.date,
+   date: data.date ? format(data.date, "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'") : null,
    comment: data.comment,
    type: data.type,
    categoryId: data.categoryId,
@@ -111,6 +117,9 @@ const EditTransactionForm = ({ transaction }) => {
    await dispatch(updateTransaction(updatedTransaction)).unwrap();
    toast.success("Transaction updated successfully!");
    dispatch(setEditTransaction(null));
+   dispatch(
+    getTransactions({ page: pagination.page, perPage: pagination.perPage })
+   );
   } catch (error) {
    console.error(`Failed to update transaction:`, error);
    const errorMessage = error.message || "Something went wrong";

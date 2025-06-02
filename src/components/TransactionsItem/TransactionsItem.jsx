@@ -8,6 +8,7 @@ import {
  setEditTransaction,
  setTransactionToDelete,
 } from "../../redux/transactions/slice";
+import { format, parseISO, isValid } from "date-fns";
 
 const getStyleByType = (type) =>
  type === "income" ? "var(--income-color)" : "var(--expense-color)";
@@ -18,11 +19,10 @@ function TransactionsItem({ transaction }) {
 
  const { date, type, categoryId, comment, sum } = transaction;
 
- const dateObj = new Date(date);
- const day = String(dateObj.getDate()).padStart(2, "0");
- const month = String(dateObj.getMonth() + 1).padStart(2, "0");
- const year = dateObj.getFullYear().toString().slice(-2);
- const formattedDate = `${day}.${month}.${year}`;
+ let formattedDate = "Invalid Date";
+ if (date && isValid(parseISO(date))) {
+  formattedDate = format(parseISO(date), "dd.MM.yyyy");
+ }
 
  const formattedType = type === "income" ? "+" : "-";
  const color = getStyleByType(type);

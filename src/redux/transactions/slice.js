@@ -11,10 +11,8 @@ import { useSelector } from "react-redux";
 
 const transactions = {
  items: [],
-
  incomeCategories: [],
  expenseCategories: [],
-
  currentTransaction: null,
  transactionToDelete: null,
  isOpenAddTransaction: false,
@@ -73,7 +71,6 @@ const transactionsSlice = createSlice({
      if (state.page > payload.pagination.totalPages) {
       state.page = payload.pagination.totalPages;
      }
-
      if (state.page === 0) {
       state.page = 1;
      }
@@ -90,12 +87,9 @@ const transactionsSlice = createSlice({
     state.isLoading = true;
     state.error = null;
    })
-   .addCase(addTransactions.fulfilled, (state, { payload }) => {
+   .addCase(addTransactions.fulfilled, (state) => {
     state.isLoading = false;
-    state.items.unshift(payload.transaction);
-
-    state.page = 1;
-    state.totalPages = Math.ceil((state.items.length + 1) / state.perPage);
+    state.isOpenAddTransaction = false;
    })
    .addCase(addTransactions.rejected, (state, { payload }) => {
     state.isLoading = false;
@@ -106,19 +100,9 @@ const transactionsSlice = createSlice({
     state.isLoading = true;
     state.error = null;
    })
-   .addCase(deleteTransactions.fulfilled, (state, { payload }) => {
+   .addCase(deleteTransactions.fulfilled, (state) => {
     state.isLoading = false;
-    state.items = state.items.filter(
-     (transaction) => transaction._id !== payload.id
-    );
     state.transactionToDelete = null;
-
-    state.totalPages = Math.ceil(state.items.length / state.perPage);
-    if (state.page > state.totalPages && state.totalPages > 0) {
-     state.page = state.totalPages;
-    } else if (state.totalPages === 0) {
-     state.page = 1;
-    }
    })
    .addCase(deleteTransactions.rejected, (state, { payload }) => {
     state.isLoading = false;
@@ -132,7 +116,6 @@ const transactionsSlice = createSlice({
    })
    .addCase(getCategories.fulfilled, (state, { payload, meta }) => {
     state.isLoading = false;
-
     if (meta.arg === "income") {
      state.incomeCategories = payload;
     } else if (meta.arg === "expense") {
@@ -151,15 +134,10 @@ const transactionsSlice = createSlice({
     state.isLoading = true;
     state.error = null;
    })
-   .addCase(updateTransaction.fulfilled, (state, { payload }) => {
+   .addCase(updateTransaction.fulfilled, (state) => {
     state.isLoading = false;
-    const index = state.items.findIndex(
-     (item) => item._id === payload.transaction._id
-    );
-    if (index !== -1) {
-     state.items[index] = payload.transaction;
-    }
     state.currentTransaction = null;
+    state.isOpenEditTransaction = false;
    })
    .addCase(updateTransaction.rejected, (state, { payload }) => {
     state.isLoading = false;
