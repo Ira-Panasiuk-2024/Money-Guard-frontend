@@ -31,11 +31,8 @@ const StatisticsTab = () => {
 
    <div className={s.chartSection}>
     <h2 className={s.title}>Statistics</h2>
-
     {error && <p className={s.errorMessage}>Error: {error}</p>}
-
     <StatisticsChart />
-
     <p className={s.totalBalanceDisplay}>
      Total Balance:{" "}
      <span className={s.balanceValue}>₴ {totalBalance.toFixed(2)}</span>
@@ -45,7 +42,6 @@ const StatisticsTab = () => {
    <div className={s.tabContainer}>
     <div className={s.dashboardSection}>
      <StatisticsDashboard />
-
      <div className={s.periodSummary}>
       <p className={s.periodSummaryItem}>
        Net Result:
@@ -73,7 +69,6 @@ const StatisticsTab = () => {
       </p>
      </div>
     </div>
-
     <div className={s.tableSection}>
      <StatisticsTable />
     </div>
