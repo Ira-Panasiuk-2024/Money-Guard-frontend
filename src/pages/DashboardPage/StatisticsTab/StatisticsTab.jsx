@@ -15,7 +15,6 @@ import {
 } from "../../redux/statistics/selectors";
 
 const StatisticsTab = () => {
- // Get all necessary data from Redux state
  const totalBalance = useSelector(selectTotalBalance);
  const periodIncomeOutcome = useSelector(selectPeriodIncomeOutcome);
  const periodTransactionsSum = useSelector(selectPeriodTransactionsSum);
@@ -28,16 +27,15 @@ const StatisticsTab = () => {
 
  return (
   <div className={s.statisticsBox}>
-   {/* Display loading overlay if data is loading */}
    {isLoading && <div className={s.loadingOverlay}>Loading...</div>}
 
    <div className={s.chartSection}>
     <h2 className={s.title}>Statistics</h2>
-    {/* Display error message if present */}
+
     {error && <p className={s.errorMessage}>Error: {error}</p>}
-    {/* Chart component */}
+
     <StatisticsChart />
-    {/* Display user's total balance */}
+
     <p className={s.totalBalanceDisplay}>
      Total Balance:{" "}
      <span className={s.balanceValue}>₴ {totalBalance.toFixed(2)}</span>
@@ -45,10 +43,9 @@ const StatisticsTab = () => {
    </div>
 
    <div className={s.tabContainer}>
-    {/* Component for period selection */}
     <div className={s.dashboardSection}>
      <StatisticsDashboard />
-     {/* Display additional metrics for the selected period */}
+
      <div className={s.periodSummary}>
       <p className={s.periodSummaryItem}>
        Net Result:
@@ -76,7 +73,7 @@ const StatisticsTab = () => {
       </p>
      </div>
     </div>
-    {/* Statistics table component */}
+
     <div className={s.tableSection}>
      <StatisticsTable />
     </div>
