@@ -19,7 +19,7 @@ const transactions = {
  transactionToDelete: null,
  isOpenAddTransaction: false,
  perPage: 8,
- page: 0,
+ page: 1,
  totalPages: 1,
  isOpenEditTransaction: false,
  isLoading: false,
@@ -51,7 +51,7 @@ const transactionsSlice = createSlice({
    state.transactionToDelete = action.payload;
   },
   setPage(state, { payload }) {
-   state.page = payload;
+   state.page = payload > 0 ? payload : 1;
   },
   setOpenEditTransaction(state, action) {
    state.isOpenEditTransaction = action.payload;
@@ -69,13 +69,16 @@ const transactionsSlice = createSlice({
     state.perPage = payload.pagination.perPage;
     state.totalPages = payload.pagination.totalPages;
 
-    if (
-     payload.pagination.totalPages > 0 &&
-     state.page >= payload.pagination.totalPages
-    ) {
-     state.page = payload.pagination.totalPages - 1;
-    } else if (payload.pagination.totalPages === 0) {
-     state.page = 0;
+    if (payload.pagination.totalPages > 0) {
+     if (state.page > payload.pagination.totalPages) {
+      state.page = payload.pagination.totalPages;
+     }
+
+     if (state.page === 0) {
+      state.page = 1;
+     }
+    } else {
+     state.page = 1;
     }
    })
    .addCase(getTransactions.rejected, (state, { payload }) => {
@@ -90,6 +93,9 @@ const transactionsSlice = createSlice({
    .addCase(addTransactions.fulfilled, (state, { payload }) => {
     state.isLoading = false;
     state.items.unshift(payload.transaction);
+
+    state.page = 1;
+    state.totalPages = Math.ceil((state.items.length + 1) / state.perPage);
    })
    .addCase(addTransactions.rejected, (state, { payload }) => {
     state.isLoading = false;
@@ -106,6 +112,13 @@ const transactionsSlice = createSlice({
      (transaction) => transaction._id !== payload.id
     );
     state.transactionToDelete = null;
+
+    state.totalPages = Math.ceil(state.items.length / state.perPage);
+    if (state.page > state.totalPages && state.totalPages > 0) {
+     state.page = state.totalPages;
+    } else if (state.totalPages === 0) {
+     state.page = 1;
+    }
    })
    .addCase(deleteTransactions.rejected, (state, { payload }) => {
     state.isLoading = false;
