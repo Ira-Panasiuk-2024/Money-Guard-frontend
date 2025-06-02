@@ -12,7 +12,7 @@ import {
  selectTotalIncome,
  selectStatisticsIsLoading,
  selectStatisticsError,
-} from "../../redux/statistics/selectors";
+} from "../../../redux/statistics/selectors";
 
 const StatisticsTab = () => {
  const totalBalance = useSelector(selectTotalBalance);
