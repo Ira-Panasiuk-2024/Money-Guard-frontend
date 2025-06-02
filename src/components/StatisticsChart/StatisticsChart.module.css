@@ -1,4 +1,4 @@
-.chartContainer {
+/* .chartContainer {
   width: 280px;
   height: 280px;
   position: relative;
@@ -17,4 +17,75 @@
     width: 336px;
     height: 336px;
   }
+} */
+
+.chartWrapper {
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+}
+
+.chartControl {
+ display: flex;
+ margin-bottom: 20px;
+}
+
+.chartTypeButton {
+ padding: 10px 20px;
+ margin: 0 5px;
+ border: 1px solid #007bff;
+ border-radius: 5px;
+ background-color: #f0f8ff; /* Light blue background */
+ color: #007bff;
+ font-size: 16px;
+ cursor: pointer;
+ transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.chartTypeButton:hover {
+ background-color: #e0f0ff;
+}
+
+.chartTypeButton.active {
+ background-color: #007bff;
+ color: #fff;
+}
+
+.chartContainer {
+ width: 280px;
+ height: 280px;
+ position: relative;
+ margin: 0 auto;
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+}
+
+.centerText {
+ position: absolute;
+ top: 50%;
+ left: 50%;
+ transform: translate(-50%, -50%);
+ text-align: center;
+}
+
+.balance {
+ font-weight: 600;
+ font-size: 18px;
+ margin: 0; /* From previous version, keep for consistency */
+ padding: 0; /* From previous version, keep for consistency */
+}
+
+.message {
+ text-align: center;
+ margin-top: 20px;
+ color: #666;
+ font-style: italic;
+}
+
+@media screen and (min-width: 768px) {
+ .chartContainer {
+  width: 336px;
+  height: 336px;
+ }
 }
