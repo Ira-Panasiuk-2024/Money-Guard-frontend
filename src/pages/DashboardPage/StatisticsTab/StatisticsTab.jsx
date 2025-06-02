@@ -1,6 +1,6 @@
-import StatisticsChart from "../../components/StatisticsChart/StatisticsChart";
-import StatisticsDashboard from "../../components/StatisticsDashboard/StatisticsDashboard";
-import StatisticsTable from "../../components/StatisticsTable/StatisticsTable";
+import StatisticsChart from "../../../components/StatisticsChart/StatisticsChart";
+import StatisticsDashboard from "../../../components/StatisticsDashboard/StatisticsDashboard";
+import StatisticsTable from "../../../components/StatisticsTable/StatisticsTable";
 import s from "./StatisticsTab.module.css";
 import { useSelector } from "react-redux";
 import {
