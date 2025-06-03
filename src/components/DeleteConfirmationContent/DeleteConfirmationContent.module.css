@@ -1,59 +1,54 @@
 .contentWrapper {
- padding: 20px; /* Додайте відступи */
- text-align: center; /* Вирівнювання по центру */
+ padding: 20px;
+ text-align: center;
 }
 
 .message {
  font-size: 18px;
  margin-bottom: 20px;
- color: var(--text-color); /* Адаптуйте колір тексту */
+ color: var(--text-color);
 }
 
 .details {
  font-size: 14px;
- color: var(--text-color-secondary); /* Адаптуйте колір тексту */
+ color: var(--text-color-secondary);
  margin-bottom: 20px;
 }
 
 .buttonGroup {
  display: flex;
- flex-direction: column; /* Кнопки одна під одною на мобільних */
+ flex-direction: column;
  gap: 20px;
- width: 280px; /* Фіксована ширина для кнопок */
- margin: 0 auto; /* Вирівнювання по центру */
+ width: 280px;
+ margin: 0 auto;
 }
 
 .confirmButton {
- background-color: var(--expense-color); /* Червоний колір для видалення */
+ background-color: var(--expense-color);
  color: var(--white-color);
  border: none;
  padding: 12px 24px;
- border-radius: 20px; /* Закруглені кути */
+ border-radius: 20px;
  cursor: pointer;
  font-size: 18px;
  font-weight: 400;
  transition: background-color 0.3s ease;
- width: 100%; /* Розтягнути на всю ширину */
+ width: 100%;
 }
 
 .confirmButton:hover {
- background-color: var(
-  --expense-color-darker
- ); /* Темніший червоний при наведенні */
+ background-color: var(--expense-color-darker);
 }
 
-/* Стилі для мобільних можна додати тут, якщо відрізняються */
 @media (min-width: 768px) {
  .buttonGroup {
-  flex-direction: row; /* Кнопки в рядок на планшетах/десктопах */
+  flex-direction: row;
   justify-content: center;
   gap: 30px;
-  width: auto; /* Ширина за контентом */
+  width: auto;
  }
 
  .confirmButton {
-  width: 180px; /* Фіксована ширина на десктопах */
+  width: 180px;
  }
 }
-
-/* Переконайтеся, що стилі для ButtonCancel відповідають дизайну */

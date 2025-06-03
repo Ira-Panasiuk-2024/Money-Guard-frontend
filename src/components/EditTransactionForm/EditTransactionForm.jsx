@@ -23,7 +23,7 @@ import {
  selectIncomeCategories,
  selectExpenseCategories,
 } from "../../redux/transactions/selectors";
-import { format, parseISO } from "date-fns"; // ВИДАЛЕНО: isValid
+import { format, parseISO } from "date-fns";
 
 const validationSchema = yup.object().shape({
  sum: yup

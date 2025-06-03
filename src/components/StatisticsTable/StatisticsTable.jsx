@@ -4,7 +4,6 @@ import {
  selectExpenseCategories,
  selectTotalExpense,
  selectTotalIncome,
- selectStatisticsIsLoading,
 } from "../../redux/statistics/selectors";
 
 const StatisticsTable = () => {
@@ -13,12 +12,6 @@ const StatisticsTable = () => {
  const totalIncome = useSelector(selectTotalIncome);
 
  const totalExpense = useSelector(selectTotalExpense);
-
- const isLoading = useSelector(selectStatisticsIsLoading);
-
- if (isLoading) {
-  return <p className={styles.message}>Loading table...</p>;
- }
 
  if (!expenseCategories || expenseCategories.length === 0) {
   return <p className={styles.message}>No expense data for this period.</p>;

@@ -3,13 +3,13 @@ import RegistrationForm from "../../components/RegistrationForm/RegistrationForm
 import s from "./RegistrationPage.module.css";
 
 const RegistrationPage = () => {
-  return (
+ return (
   <section className={s.registerPage}>
-      <Container className={s.register}>
-        <RegistrationForm />
-      </Container>
+   <Container className={s.register}>
+    <RegistrationForm />
+   </Container>
   </section>
-  );
+ );
 };
 
 export default RegistrationPage;

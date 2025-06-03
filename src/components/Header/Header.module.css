@@ -1,77 +1,77 @@
 .header {
-  padding-top: 12px;
-  padding-bottom: 12px;
-  background: var(--bg-header-gradient);
-  box-shadow: var(--btn-shadow);
+ padding-top: 12px;
+ padding-bottom: 12px;
+ background: var(--bg-header-gradient);
+ box-shadow: var(--btn-shadow);
 }
 
 .headerContainer {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  position: relative;
+ display: flex;
+ flex-direction: row;
+ justify-content: space-between;
+ align-items: center;
+ position: relative;
 }
 
 .exitIcon {
-  background-color: transparent;
-  color: inherit;
-  padding: 0;
-  height: 32px;
+ background-color: transparent;
+ color: inherit;
+ padding: 0;
+ height: 32px;
 }
 
 .exitBtn {
-  background-color: transparent;
-  color: inherit;
-  display: flex;
-  flex-direction: row;
-  align-items: end;
-  gap: 8px;
-  padding: 0;
+ background-color: transparent;
+ color: inherit;
+ display: flex;
+ flex-direction: row;
+ align-items: end;
+ gap: 8px;
+ padding: 0;
 }
 
 .user {
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-  gap: 8px;
-  font-size: 16px;
-  font-weight: 400;
-  color: var(--user-color);
+ display: flex;
+ align-items: center;
+ flex-direction: row;
+ gap: 8px;
+ font-size: 16px;
+ font-weight: 400;
+ color: var(--user-color);
 }
 
 .avatar {
-  background-color: var(--bg-avatar);
-  border-radius: 8px;
-  padding: 0;
-  width: 32px;
-  height: 32px;
-  overflow: hidden;
+ background-color: var(--bg-avatar);
+ border-radius: 8px;
+ padding: 0;
+ width: 32px;
+ height: 32px;
+ overflow: hidden;
 }
 
 @media screen and (min-width: 768px) {
-  .line::after {
-    content: "";
-    border-bottom: 1px solid var(--user-color);
-    width: 30px;
-    height: 0px;
-    transform: rotate(-90deg);
-    position: absolute;
-    top: 27px;
-    right: 85px;
-  }
+ .line::after {
+  content: "";
+  border-bottom: 1px solid var(--user-color);
+  width: 30px;
+  height: 0px;
+  transform: rotate(-90deg);
+  position: absolute;
+  top: 27px;
+  right: 85px;
+ }
 
-  .user {
-    gap: 12px;
-  }
+ .user {
+  gap: 12px;
+ }
 
-  .headerContainer {
-    align-items: flex-end;
-  }
+ .headerContainer {
+  align-items: flex-end;
+ }
 }
 
 @media screen and (min-width: 1280px) {
-  .line::after {
-    right: 68px;
-  }
+ .line::after {
+  right: 68px;
+ }
 }

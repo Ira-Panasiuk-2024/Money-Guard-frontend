@@ -14,88 +14,85 @@ import useMedia from "../../helpers/useMedia";
 import clsx from "clsx";
 
 const UserModal = () => {
-  const dispatch = useDispatch();
-  const { user } = useAuth();
-  const isUserOpen = useSelector(selectUserProfile);
-  const inputAvatar = useRef(null);
-  const { isMobile } = useMedia;
+ const dispatch = useDispatch();
+ const { user } = useAuth();
+ const isUserOpen = useSelector(selectUserProfile);
+ const inputAvatar = useRef(null);
+ const { isMobile } = useMedia;
 
-  const [photo, setFile] = useState(null);
-  const onSubmit = async (data) => {
-    const form = new FormData();
+ const [photo, setFile] = useState(null);
+ const onSubmit = async (data) => {
+  const form = new FormData();
 
-    form.append("name", data.name);
-    if (photo) {
-      form.append("photo", photo);
-    }
-    await dispatch(updateUser(form))
-      .unwrap()
-      .then(() => dispatch(setOpenUserProfile(false)));
-  };
+  form.append("name", data.name);
+  if (photo) {
+   form.append("photo", photo);
+  }
+  await dispatch(updateUser(form))
+   .unwrap()
+   .then(() => dispatch(setOpenUserProfile(false)));
+ };
 
-  const handlePhotoChange = (event) => {
-    setFile(event.target.files[0]);
-  };
+ const handlePhotoChange = (event) => {
+  setFile(event.target.files[0]);
+ };
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, dirtyFields },
-  } = useForm({
-    mode: "all",
-    defaultValues: {
-      name: user.name,
-    },
-    resolver: yupResolver(validationSchemaUserUpdate),
-  });
+ const {
+  register,
+  handleSubmit,
+  formState: { errors, dirtyFields },
+ } = useForm({
+  mode: "all",
+  defaultValues: {
+   name: user.name,
+  },
+  resolver: yupResolver(validationSchemaUserUpdate),
+ });
 
-  return (
-    <ModalWindow
-      closeModal={() => dispatch(setOpenUserProfile(false))}
-      modalIsOpen={isUserOpen}
-      title="Edit Profile"
-      showIcon={isMobile ? false : true}
-    >
-      <div className={s.modalBox}>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <Avatar
-            user={{
-              photo: photo ? URL.createObjectURL(photo) : user.photo,
-              name: user.name,
-            }}
-            edit={true}
-            onAvatarEdit={() => inputAvatar.current.click()}
-          ></Avatar>
-          <input
-            {...register("avatar")}
-            type="file"
-            id="avatar-upload"
-            accept="image/*"
-            onChange={handlePhotoChange}
-            ref={inputAvatar}
-            className={s.file}
-          />
-          <input
-            className={clsx(s.textEdit, errors.name && s.invalid)}
-            placeholder="Name"
-            type="text"
-            {...register("name", { required: true })}
-          />
-          <div className={s.error}>
-            {errors.name && <p>{errors.name.message}</p>}
-          </div>
-          <Button
-            text="save"
-            disabled={errors.name || !dirtyFields.name}
-            className={clsx(
-              s.save,
-              (errors.name || !dirtyFields.name) && s.opacity
-            )}
-          />
-        </form>
-      </div>
-    </ModalWindow>
-  );
+ return (
+  <ModalWindow
+   closeModal={() => dispatch(setOpenUserProfile(false))}
+   modalIsOpen={isUserOpen}
+   title="Edit Profile"
+   showIcon={isMobile ? false : true}
+  >
+   <div className={s.modalBox}>
+    <form onSubmit={handleSubmit(onSubmit)}>
+     <Avatar
+      user={{
+       photo: photo ? URL.createObjectURL(photo) : user.photo,
+       name: user.name,
+      }}
+      edit={true}
+      onAvatarEdit={() => inputAvatar.current.click()}
+     ></Avatar>
+     <input
+      {...register("avatar")}
+      type="file"
+      id="avatar-upload"
+      accept="image/*"
+      onChange={handlePhotoChange}
+      ref={inputAvatar}
+      className={s.file}
+     />
+     <input
+      className={clsx(s.textEdit, errors.name && s.invalid)}
+      placeholder="Name"
+      type="text"
+      {...register("name", { required: true })}
+     />
+     <div className={s.error}>
+      {errors.name && <p>{errors.name.message}</p>}
+     </div>
+     <Button
+      text="save"
+      disabled={errors.name || !dirtyFields.name}
+      className={clsx(s.save, (errors.name || !dirtyFields.name) && s.opacity)}
+     />
+    </form>
+   </div>
+  </ModalWindow>
+ );
 };
 
 export default UserModal;

@@ -4,15 +4,15 @@ import { selectIsLoading } from "../../redux/global/selectors.js";
 import s from "./Loader.module.css";
 
 const Loader = () => {
-  const isLoading = useSelector(selectIsLoading);
+ const isLoading = useSelector(selectIsLoading);
 
-  if (!isLoading) return null;
+ if (!isLoading) return null;
 
-  return (
-    <div className={s.loader}>
-      <BeatLoader color="#FFB627" size={30} />
-    </div>
-  );
+ return (
+  <div className={s.loader}>
+   <BeatLoader color="#FFB627" size={30} />
+  </div>
+ );
 };
 
 export default Loader;

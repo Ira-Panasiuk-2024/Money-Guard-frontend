@@ -1,35 +1,34 @@
 .wrapper {
-  max-width: 320px;
-  margin: 0 auto 20px;
-  padding-top: 32px;
- 
+ max-width: 320px;
+ margin: 0 auto 20px;
+ padding-top: 32px;
 }
 
 .form {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
+ width: 100%;
+ display: flex;
+ flex-direction: column;
 }
 
 .select,
 .sum,
 .DatePicker,
 .comment {
-  background: transparent;
-  border: none;
-  border-bottom: 1px solid var(--bg-modal);
-  color: var(--main-color);
-  padding: 8px;
-  cursor: pointer;
-  transition: border-bottom 0.3s var(--main-transform);
+ background: transparent;
+ border: none;
+ border-bottom: 1px solid var(--bg-modal);
+ color: var(--main-color);
+ padding: 8px;
+ cursor: pointer;
+ transition: border-bottom 0.3s var(--main-transform);
 }
 
 .select {
-  appearance: none;
-  outline: none;
-  width: 100%;
-  position: relative;
-  z-index: 1;
+ appearance: none;
+ outline: none;
+ width: 100%;
+ position: relative;
+ z-index: 1;
 }
 
 .comment:hover,
@@ -40,137 +39,137 @@
 .sum:focus,
 .select:hover,
 .select:focus {
-  border-bottom: 1px solid var(--income-color);
+ border-bottom: 1px solid var(--income-color);
 }
 
 .select option {
-  outline: none;
-  background-color: #533dba;
-  backdrop-filter: blur(100px);
-  box-shadow: var(--modal-shadow);
-  color: var(--main-color);
-  border: none;
+ outline: none;
+ background-color: #533dba;
+ backdrop-filter: blur(100px);
+ box-shadow: var(--modal-shadow);
+ color: var(--main-color);
+ border: none;
 }
 
 .select_error_box {
-  position: relative;
-  margin-bottom: 30px;
-  height: 45.5px;
+ position: relative;
+ margin-bottom: 30px;
+ height: 45.5px;
 }
 
 .errors {
-  color: var(--income-color);
-  font-size: 9px;
-  margin-top: 2px;
-  position: relative;
+ color: var(--income-color);
+ font-size: 9px;
+ margin-top: 2px;
+ position: relative;
 }
 
 .select_box {
-  width: 100%;
+ width: 100%;
 }
 
 .select_icon {
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  z-index: 0;
-  color: var(--main-color);
-  transition: transform 0.3s var(--main-transform),
-    color 0.3s var(--main-transform);
+ position: absolute;
+ top: 8px;
+ right: 8px;
+ z-index: 0;
+ color: var(--main-color);
+ transition: transform 0.3s var(--main-transform),
+  color 0.3s var(--main-transform);
 }
 
 .select:focus + .select_icon {
-  transform: rotateX(180deg);
+ transform: rotateX(180deg);
 }
 
 .select:hover + .select_icon,
 .select:focus + .select_icon {
-  color: var(--income-color);
+ color: var(--income-color);
 }
 
 .comment::placeholder,
 .sum::placeholder {
-  color: var(--icon-hover);
+ color: var(--icon-hover);
 }
 
 .error_box {
-  width: 100%;
-  height: 10.5px;
+ width: 100%;
+ height: 10.5px;
 }
 
 .box_sum_date {
-  width: 100%;
-  display: flex;
-  gap: 32px;
-  align-items: flex-start;
-  justify-content: space-between;
+ width: 100%;
+ display: flex;
+ gap: 32px;
+ align-items: flex-start;
+ justify-content: space-between;
 }
 
 .sum {
-  font-weight: 600;
-  font-size: 18px;
-  text-align: center;
-  width: 100%;
+ font-weight: 600;
+ font-size: 18px;
+ text-align: center;
+ width: 100%;
 }
 
 .controller {
-  width: 100%;
+ width: 100%;
 }
 
 .DatePicker {
-  width: 100%;
-  font-size: 18px;
-  font-weight: 400;
-  position: relative;
-  z-index: 1;
+ width: 100%;
+ font-size: 18px;
+ font-weight: 400;
+ position: relative;
+ z-index: 1;
 }
 
 .comment_error_box {
-  margin-bottom: 30px;
+ margin-bottom: 30px;
 }
 
 .comment {
-  width: 100%;
+ width: 100%;
 }
 
 .add_btn {
-  padding: 13px 129px 10px 129px;
-  font-weight: 400;
-  height: 50px;
-  font-size: 18px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  text-align: center;
-  color: var(--main-color);
-  max-width: 300px;
-  margin: 0 auto;
+ padding: 13px 129px 10px 129px;
+ font-weight: 400;
+ height: 50px;
+ font-size: 18px;
+ letter-spacing: 0.1em;
+ text-transform: uppercase;
+ text-align: center;
+ color: var(--main-color);
+ max-width: 300px;
+ margin: 0 auto;
 }
 
 .date_box {
-  margin-bottom: 30px;
-  position: relative;
+ margin-bottom: 30px;
+ position: relative;
 }
 
 .date_icon {
-  color: var(--icon-violet);
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  z-index: 0;
+ color: var(--icon-violet);
+ position: absolute;
+ top: 8px;
+ right: 8px;
+ z-index: 0;
 }
 
 .cancel_btn {
-  border-radius: 20px;
-  max-width: 300px;
-  padding: 13px 110px 10px 111px;
+ border-radius: 20px;
+ max-width: 300px;
+ padding: 13px 110px 10px 111px;
 
-  font-weight: 400;
-  font-size: 18px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  text-align: center;
-  color: var(--dark-color);
-  margin: 0 auto;
+ font-weight: 400;
+ font-size: 18px;
+ letter-spacing: 0.1em;
+ text-transform: uppercase;
+ text-align: center;
+ color: var(--dark-color);
+ margin: 0 auto;
 }
 
 .sum:-webkit-autofill,
@@ -181,54 +180,54 @@
 .comment:-webkit-autofill:hover,
 .comment:-webkit-autofill:focus,
 .comment:-webkit-autofill:active {
-  transition: background-color 9999s var(--second-transform) 0s;
-  -webkit-text-fill-color: var(--main-color) !important;
-  background-color: transparent !important;
-  caret-color: var(--form-color);
-  border-bottom: 1px solid var(--form-color);
+ transition: background-color 9999s var(--second-transform) 0s;
+ -webkit-text-fill-color: var(--main-color) !important;
+ background-color: transparent !important;
+ caret-color: var(--form-color);
+ border-bottom: 1px solid var(--form-color);
 }
 
 @media screen and (max-width: 768px) {
-  .wrapper {
-    max-width: 320px;
-    padding-top: 40px 20px 20px;
-  }
+ .wrapper {
+  max-width: 320px;
+  padding-top: 40px 20px 20px;
+ }
 
-  .add_btn {
-    max-width: 280px;
-  }
+ .add_btn {
+  max-width: 280px;
+ }
 
-  .box_sum_date {
-    flex-direction: column;
-    gap: 0;
-    align-items: flex-start;
-    justify-content: space-between;
-  }
+ .box_sum_date {
+  flex-direction: column;
+  gap: 0;
+  align-items: flex-start;
+  justify-content: space-between;
+ }
 
-  .date_box {
-    width: 100%;
-  }
+ .date_box {
+  width: 100%;
+ }
 
-  .react-datepicker-wrapper {
-    width: 100%;
-  }
+ .react-datepicker-wrapper {
+  width: 100%;
+ }
 
-  .sum {
-    text-align: start;
-  }
+ .sum {
+  text-align: start;
+ }
 
-  .select,
-  .sum,
-  .DatePicker,
-  .comment {
-    padding: 8px 20px;
-  }
+ .select,
+ .sum,
+ .DatePicker,
+ .comment {
+  padding: 8px 20px;
+ }
 
-  .select_icon {
-    right: 20px;
-  }
+ .select_icon {
+  right: 20px;
+ }
 
-  .date_icon {
-    right: 20px;
-  }
+ .date_icon {
+  right: 20px;
+ }
 }

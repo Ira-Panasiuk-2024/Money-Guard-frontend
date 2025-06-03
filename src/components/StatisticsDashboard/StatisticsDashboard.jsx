@@ -74,8 +74,6 @@ const StatisticsDashboard = () => {
     </select>
     <IoIosArrowDown size={24} className={s.selectIcon} />
    </label>
-
-   {isLoading && <p className={s.loadingMessage}>Loading statistics...</p>}
   </div>
  );
 };

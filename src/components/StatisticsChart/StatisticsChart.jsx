@@ -9,7 +9,6 @@ import {
  selectExpenseCategories,
  selectTotalIncome,
  selectIncomeCategories,
- selectStatisticsIsLoading,
 } from "../../redux/statistics/selectors";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
@@ -21,7 +20,6 @@ const StatisticsChart = () => {
  const expenseCategories = useSelector(selectExpenseCategories);
  const totalIncome = useSelector(selectTotalIncome);
  const incomeCategories = useSelector(selectIncomeCategories);
- const isLoading = useSelector(selectStatisticsIsLoading);
 
  const options = {
   responsive: true,
@@ -52,17 +50,9 @@ const StatisticsChart = () => {
   cutout: "70%",
  };
 
- if (isLoading) {
-  return <p className={s.message}>Loading chart...</p>;
- }
-
  const currentTotal = chartType === "expenses" ? totalExpense : totalIncome;
  const currentCategories =
   chartType === "expenses" ? expenseCategories : incomeCategories;
- const noDataMessage =
-  chartType === "expenses"
-   ? "No expense data for this period."
-   : "No income data for this period.";
 
  if (!currentCategories || currentCategories.length === 0) {
   return (
@@ -83,7 +73,6 @@ const StatisticsChart = () => {
     >
      Incomes
     </button>
-    <p className={s.message}>{noDataMessage}</p>
    </div>
   );
  }

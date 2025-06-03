@@ -1,26 +1,24 @@
 .text {
-  font-weight: 400;
-  font-size: 18px;
-  text-align: center;
-  width: 214px;
-  margin: 0 auto 40px;
+ font-weight: 400;
+ font-size: 18px;
+ text-align: center;
+ width: 214px;
+ margin: 0 auto 40px;
 }
 
 .btn {
-  width: 280px;
-  height: 50px;
-  margin-bottom: 20px;
+ width: 280px;
+ height: 50px;
+ margin-bottom: 20px;
 }
 
 @media screen and (min-width: 768px) {
-  .btn {
-    width: 300px;
-  }
-  .boxIcon{
-   display: flex;
-   gap: 52px;
-   flex-direction: column;
-  }
-
-
+ .btn {
+  width: 300px;
+ }
+ .boxIcon {
+  display: flex;
+  gap: 52px;
+  flex-direction: column;
+ }
 }
