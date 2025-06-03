@@ -2,7 +2,6 @@ import { lazy, Suspense, useEffect } from "react";
 import { ToastContainer } from "react-toastify";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { useMediaQuery } from "react-responsive";
-import "./App.css";
 import PrivateRoute from "./PrivateRoute";
 import RestrictedRoute from "./RestrictedRoute";
 import Loader from "./Loader/Loader.jsx";
