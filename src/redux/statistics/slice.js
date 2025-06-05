@@ -16,6 +16,7 @@ const initialState = {
  year: new Date().getFullYear(),
  isLoading: false,
  error: null,
+ chartType: "expenses",
 };
 
 const statisticsSlice = createSlice({
@@ -26,15 +27,16 @@ const statisticsSlice = createSlice({
    state.month = action.payload.month;
    state.year = action.payload.year;
   },
+  setChartType(state, action) {
+   state.chartType = action.payload;
+  },
  },
  extraReducers: (builder) => {
   builder
-
    .addCase(fetchStatistics.pending, (state) => {
     state.isLoading = true;
     state.error = null;
    })
-
    .addCase(fetchStatistics.fulfilled, (state, action) => {
     state.isLoading = false;
     state.error = null;
@@ -45,7 +47,7 @@ const statisticsSlice = createSlice({
      return {
       name: name,
       total: value,
-      color: colors[index % colors.length],
+      color: colors[index % 10],
      };
     });
 
@@ -54,7 +56,7 @@ const statisticsSlice = createSlice({
       return {
        name: name,
        total: value,
-       color: colors[index % colors.length],
+       color: colors[10 + (index % 4)],
       };
      }
     );
@@ -71,7 +73,6 @@ const statisticsSlice = createSlice({
     state.month = action.meta.arg.month;
     state.year = action.meta.arg.year;
    })
-
    .addCase(fetchStatistics.rejected, (state, { payload }) => {
     state.isLoading = false;
     state.error = payload.message || "Something went wrong fetching statistics";
@@ -90,5 +91,5 @@ const statisticsSlice = createSlice({
 });
 
 export const statisticsReducer = statisticsSlice.reducer;
-export const { setStatisticsPeriod } = statisticsSlice.actions;
+export const { setStatisticsPeriod, setChartType } = statisticsSlice.actions;
 export default statisticsSlice;

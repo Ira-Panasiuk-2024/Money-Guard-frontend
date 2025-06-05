@@ -1,20 +1,22 @@
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Doughnut } from "react-chartjs-2";
-import { useState } from "react";
 import s from "./StatisticsChart.module.css";
 
+import { setChartType } from "../../redux/statistics/slice";
 import {
  selectTotalExpense,
  selectExpenseCategories,
  selectTotalIncome,
  selectIncomeCategories,
+ selectChartType,
 } from "../../redux/statistics/selectors";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const StatisticsChart = () => {
- const [chartType, setChartType] = useState("expenses");
+ const dispatch = useDispatch();
+ const chartType = useSelector(selectChartType);
 
  const totalExpense = useSelector(selectTotalExpense);
  const expenseCategories = useSelector(selectExpenseCategories);
@@ -61,7 +63,7 @@ const StatisticsChart = () => {
      className={`${s.chartTypeButton} ${
       chartType === "expenses" ? s.active : ""
      }`}
-     onClick={() => setChartType("expenses")}
+     onClick={() => dispatch(setChartType("expenses"))}
     >
      Expenses
     </button>
@@ -69,7 +71,7 @@ const StatisticsChart = () => {
      className={`${s.chartTypeButton} ${
       chartType === "incomes" ? s.active : ""
      }`}
-     onClick={() => setChartType("incomes")}
+     onClick={() => dispatch(setChartType("incomes"))}
     >
      Incomes
     </button>
@@ -97,7 +99,7 @@ const StatisticsChart = () => {
      className={`${s.chartTypeButton} ${
       chartType === "expenses" ? s.active : ""
      }`}
-     onClick={() => setChartType("expenses")}
+     onClick={() => dispatch(setChartType("expenses"))}
     >
      Expenses
     </button>
@@ -105,7 +107,7 @@ const StatisticsChart = () => {
      className={`${s.chartTypeButton} ${
       chartType === "incomes" ? s.active : ""
      }`}
-     onClick={() => setChartType("incomes")}
+     onClick={() => dispatch(setChartType("incomes"))}
     >
      Incomes
     </button>

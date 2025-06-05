@@ -2,18 +2,25 @@ import { useSelector } from "react-redux";
 import styles from "./StatisticsTable.module.css";
 import {
  selectExpenseCategories,
+ selectIncomeCategories,
  selectTotalExpense,
  selectTotalIncome,
+ selectChartType,
 } from "../../redux/statistics/selectors";
 
 const StatisticsTable = () => {
  const expenseCategories = useSelector(selectExpenseCategories);
+ const incomeCategories = useSelector(selectIncomeCategories);
 
  const totalIncome = useSelector(selectTotalIncome);
-
  const totalExpense = useSelector(selectTotalExpense);
 
- if (!expenseCategories || expenseCategories.length === 0) {
+ const chartType = useSelector(selectChartType);
+
+ const currentCategories =
+  chartType === "expenses" ? expenseCategories : incomeCategories;
+
+ if (!currentCategories || currentCategories.length === 0) {
   return <p className={styles.message}>No expense data for this period.</p>;
  }
 
@@ -29,20 +36,17 @@ const StatisticsTable = () => {
    </ul>
 
    <ul className={styles.table}>
-    {expenseCategories.map((category) => (
+    {currentCategories.map((category) => (
      <li key={category.name} className={styles.row}>
       <span
        className={styles.color}
        style={{ backgroundColor: category.color }}
       ></span>
-
       <span className={styles.name}>{category.name}</span>
-
-      <span className={styles.amount}>{category.total.toFixed(2)}</span>
+      <span className={styles.amount}>₴ {category.total.toFixed(2)}</span>
      </li>
     ))}
    </ul>
-
    <div className={styles.total}>
     <div className={styles.totalRow}>
      <p>Expenses:</p>
