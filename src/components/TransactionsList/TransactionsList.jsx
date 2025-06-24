@@ -45,7 +45,6 @@ function TransactionsList() {
   dispatch(setPage(data.selected + 1));
  };
 
- // Визначимо, чи показувати пагінацію
  const shouldShowPagination = pagination.totalPage > 0;
 
  if (isMobile) {
@@ -60,7 +59,7 @@ function TransactionsList() {
       <EmptyStateMessage />
      )}
     </div>
-    {/* Умовний рендеринг пагінації для мобільних */}
+
     {shouldShowPagination && (
      <div>
       <ReactPaginate
@@ -74,9 +73,6 @@ function TransactionsList() {
        activeClassName={s.pageActive}
        disabledClassName={s.pageButtonDisabled}
        className={s.pageContainer}
-       // Переконайтеся, що forcePage не виходить за межі, якщо totalPage === 0,
-       // але оскільки ми вже робимо умовний рендеринг, це стає менш критичним.
-       // Math.max(0, pagination.page - 1) гарантує, що forcePage не буде від'ємним.
        forcePage={Math.max(0, pagination.page - 1)}
       />
      </div>
@@ -109,7 +105,7 @@ function TransactionsList() {
      )}
     </tbody>
    </table>
-   {/* Умовний рендеринг пагінації для десктопу */}
+
    {shouldShowPagination && (
     <div>
      <ReactPaginate
