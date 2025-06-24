@@ -64,7 +64,6 @@ export const loginThunk = createAsyncThunk(
 
 export const logoutUser = createAsyncThunk(
  "auth/logout",
-
  async (_, thunkApi) => {
   try {
    const { token } = thunkApi.getState().auth;
@@ -96,9 +95,38 @@ export const updateUser = createAsyncThunk(
    const state = thunkApi.getState();
    const { token } = state.auth;
    const { data } = await useAxios(token).patch("/users/current", newUser);
+   toast.success("Profile updated successfully!", toasterCustomStyles);
    return data;
   } catch (error) {
-   return thunkApi.rejectWithValue(error.status);
+   const status = error.response?.status;
+   const backendMessage = error.response?.data?.message;
+   let message = "Something went wrong. Please try again later.";
+
+   if (status === 400) {
+    if (
+     backendMessage &&
+     (backendMessage.includes("File upload error") ||
+      backendMessage.includes("Invalid file type") ||
+      backendMessage.includes("File is too large") ||
+      backendMessage.includes("Too many files uploaded") ||
+      backendMessage.includes("Unexpected field"))
+    ) {
+     message = backendMessage;
+    } else {
+     message = backendMessage || "Invalid data provided.";
+    }
+   } else if (status === 404) {
+    message = backendMessage || "User profile not found.";
+   } else if (status === 401) {
+    message = backendMessage || "Authentication failed. Please log in again.";
+   } else if (status === 500) {
+    message = backendMessage || "Server error. Please try again later.";
+   } else {
+    message = error.message || "An unexpected error occurred.";
+   }
+
+   toast.error(message, toasterCustomStyles);
+   return thunkApi.rejectWithValue(message);
   }
  }
 );

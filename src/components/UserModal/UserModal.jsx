@@ -21,26 +21,53 @@ const UserModal = () => {
  const { isMobile } = useMedia;
 
  const [photo, setFile] = useState(null);
+ const [fileError, setFileError] = useState(null);
+
  const onSubmit = async (data) => {
+  setFileError(null);
+
   const form = new FormData();
 
-  form.append("name", data.name);
+  if (data.name !== user.name || dirtyFields.name) {
+   form.append("name", data.name);
+  }
+
   if (photo) {
    form.append("photo", photo);
   }
-  await dispatch(updateUser(form))
-   .unwrap()
-   .then(() => dispatch(setOpenUserProfile(false)));
+
+  if (!photo && (!dirtyFields.name || data.name === user.name)) {
+   dispatch(setOpenUserProfile(false));
+   return;
+  }
+
+  try {
+   await dispatch(updateUser(form)).unwrap();
+   dispatch(setOpenUserProfile(false));
+   setFile(null);
+  } catch (error) {
+   if (
+    (typeof error === "string" && error.includes("File")) ||
+    error.includes("size")
+   ) {
+    setFileError(error);
+   }
+  }
  };
 
  const handlePhotoChange = (event) => {
-  setFile(event.target.files[0]);
+  const selectedFile = event.target.files[0];
+  if (selectedFile) {
+   setFile(selectedFile);
+   setFileError(null);
+  }
  };
 
  const {
   register,
   handleSubmit,
   formState: { errors, dirtyFields },
+  watch,
  } = useForm({
   mode: "all",
   defaultValues: {
@@ -48,6 +75,13 @@ const UserModal = () => {
   },
   resolver: yupResolver(validationSchemaUserUpdate),
  });
+
+ const watchedName = watch("name");
+
+ const isSaveDisabled =
+  (errors.name && errors.name.message) ||
+  (!dirtyFields.name && !photo) ||
+  (dirtyFields.name && watchedName === user.name);
 
  return (
   <ModalWindow
@@ -75,6 +109,7 @@ const UserModal = () => {
       ref={inputAvatar}
       className={s.file}
      />
+     {fileError && <p className={s.error}>{fileError}</p>}{" "}
      <input
       className={clsx(s.textEdit, errors.name && s.invalid)}
       placeholder="Name"
@@ -86,8 +121,8 @@ const UserModal = () => {
      </div>
      <Button
       text="save"
-      disabled={errors.name || !dirtyFields.name}
-      className={clsx(s.save, (errors.name || !dirtyFields.name) && s.opacity)}
+      disabled={isSaveDisabled}
+      className={clsx(s.save, isSaveDisabled && s.opacity)}
      />
     </form>
    </div>
