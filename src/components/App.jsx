@@ -14,6 +14,15 @@ import ModalDeleteConfirmation from "./ModalDeleteConfirmation/ModalDeleteConfir
 import UserModal from "./UserModal/UserModal.jsx";
 import { useAuth } from "../redux/auth/slice.js";
 
+const EmailVerificationPage = lazy(() =>
+ import("../pages/EmailVerificationPage/EmailVerificationPage.jsx")
+);
+const RequestResetPasswordForm = lazy(() =>
+ import("../components/AuthForms/RequestResetPasswordForm.jsx")
+);
+const ResetPasswordForm = lazy(() =>
+ import("../components/AuthForms/ResetPasswordForm.jsx")
+);
 const Login = lazy(() => import("../pages/LoginPage/LoginPage"));
 const Dashboard = lazy(() => import("../pages/DashboardPage/DashboardPage"));
 const Registration = lazy(() =>
@@ -31,10 +40,13 @@ function App() {
  const { isLoggedIn } = useAuth();
  const isSmallScreen = useMediaQuery({ query: "(max-width: 767px)" });
  const dispatch = useDispatch();
+
  useEffect(() => {
-  if (!isLoggedIn) return;
-  dispatch(currentUser());
+  if (isLoggedIn) {
+   dispatch(currentUser());
+  }
  }, [dispatch, isLoggedIn]);
+
  return (
   <>
    <Suspense fallback={null}>
@@ -45,23 +57,36 @@ function App() {
        <RestrictedRoute redirectTo="/dashboard" component={<Login />} />
       }
      />
+
      <Route
       path="/register"
       element={
        <RestrictedRoute redirectTo="/dashboard" component={<Registration />} />
       }
      />
+
+     <Route path="/auth/verify" element={<EmailVerificationPage />} />
+
+     <Route
+      path="/request-reset-password"
+      element={<RequestResetPasswordForm />}
+     />
+
+     <Route path="/reset-password" element={<ResetPasswordForm />} />
+
      <Route
       path="/dashboard"
       element={<PrivateRoute redirectTo="/login" component={<Dashboard />} />}
      >
       <Route index element={<Navigate to="home" replace />} />
+
       <Route path="home" element={<HomeTab />} />
 
       <Route path="statistics" element={<StatisticsTab />} />
 
       {isSmallScreen && <Route path="currency" element={<CurrencyTab />} />}
      </Route>
+
      <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
    </Suspense>

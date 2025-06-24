@@ -1,29 +1,29 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
-
-import { registerThunk } from "../../redux/auth/operations.js";
-import s from "./RegistrationForm.module.css";
-
-import Logo from "../../components/Logo/Logo.jsx";
-import { validationSchemaRegister } from "../../helpers/registrationSchema.js";
-import ProgressBar from "../ProgressBar/ProgressBar.jsx";
-
-import Button from "../Button/Button.jsx";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { BiSolidUser } from "react-icons/bi";
 import { MdEmail } from "react-icons/md";
 import { PiLockFill } from "react-icons/pi";
 
+import { registerThunk } from "../../redux/auth/operations.js";
+import { selectIsLoading } from "../../redux/global/selectors.js";
+import Logo from "../../components/Logo/Logo.jsx";
+import { validationSchemaRegister } from "../../helpers/registrationSchema.js";
+import ProgressBar from "../ProgressBar/ProgressBar.jsx";
+import Button from "../Button/Button.jsx";
+import Loader from "../Loader/Loader.jsx";
+import s from "./RegistrationForm.module.css";
+
 const RegistrationForm = () => {
  const dispatch = useDispatch();
+ const isLoading = useSelector(selectIsLoading);
 
  const {
   register,
   handleSubmit,
-  setError,
   watch,
   formState: { errors, isSubmitting },
  } = useForm({
@@ -64,12 +64,9 @@ const RegistrationForm = () => {
   try {
    const { confirmPassword: _, ...credentials } = data;
    await dispatch(registerThunk(credentials)).unwrap();
-   navigate("/dashboard");
-  } catch {
-   setError("email", {
-    type: "server",
-    message: "This email is already registered.",
-   });
+   navigate("/login");
+  } catch (error) {
+   console.error(error);
   }
  };
 
@@ -88,6 +85,7 @@ const RegistrationForm = () => {
         placeholder="Name"
         className={s.regInput}
         {...register("name")}
+        autoComplete="name"
        />
       </div>
       <div className={s.errorWrapper}>
@@ -101,9 +99,9 @@ const RegistrationForm = () => {
        <input
         type="email"
         placeholder="E-mail"
-        autoComplete="username"
         className={s.regInput}
         {...register("email")}
+        autoComplete="email"
        />
       </div>
       <div className={s.errorWrapper}>
@@ -187,12 +185,13 @@ const RegistrationForm = () => {
      type="submit"
      text="Register"
      className={s.button}
-     disabled={isSubmitting}
+     disabled={isSubmitting || isLoading}
     />
     <Link to="/login" className={s.link}>
      Log in
     </Link>
    </form>
+   {isLoading && <Loader />}
   </div>
  );
 };

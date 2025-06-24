@@ -1,8 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { useSelector } from "react-redux";
-import { currentUser, logoutUser, updateUser } from "./operations.js";
 
-import { registerThunk, loginThunk } from "./operations.js";
+import {
+ currentUser,
+ logoutUser,
+ updateUser,
+ registerThunk,
+ loginThunk,
+ verifyEmailThunk,
+ requestPasswordResetThunk,
+ resetPasswordThunk,
+} from "./operations.js";
 import { selectIsLoggedIn, selectUser, selectToken } from "./selectors.js";
 import {
  addTransactions,
@@ -16,6 +24,7 @@ const auth = {
   email: null,
   photo: null,
   balance: 0,
+  isVerified: false,
  },
  token: null,
  isLoggedIn: false,
@@ -45,13 +54,12 @@ const authSlice = createSlice({
    state.isUserOpen = action.payload;
   },
  },
-
  extraReducers: (builder) => {
   builder
    .addCase(registerThunk.fulfilled, (state, action) => {
-    state.user = action.payload.user;
-    state.token = action.payload.token;
-    state.isLoggedIn = true;
+    state.user.name = action.payload.user.name;
+    state.user.email = action.payload.user.email;
+    state.user.isVerified = action.payload.user.isVerified;
    })
    .addCase(loginThunk.fulfilled, (state, action) => {
     state.user = action.payload.user;
@@ -59,7 +67,13 @@ const authSlice = createSlice({
     state.isLoggedIn = true;
    })
    .addCase(logoutUser.fulfilled, (state) => {
-    state.user = { name: null, email: null, photo: null, balance: 0 };
+    state.user = {
+     name: null,
+     email: null,
+     photo: null,
+     balance: 0,
+     isVerified: false,
+    };
     state.token = null;
     state.isLoggedIn = false;
     state.isConfirmLogout = false;
@@ -67,7 +81,13 @@ const authSlice = createSlice({
    })
    .addCase(logoutUser.rejected, (state, action) => {
     if (action.payload === 401) {
-     state.user = { name: null, email: null, photo: null, balance: 0 };
+     state.user = {
+      name: null,
+      email: null,
+      photo: null,
+      balance: 0,
+      isVerified: false,
+     };
      state.token = null;
      state.isLoggedIn = false;
      state.isConfirmLogout = false;
@@ -82,13 +102,20 @@ const authSlice = createSlice({
    })
    .addCase(currentUser.fulfilled, (state, { payload }) => {
     state.user = payload.data;
+    state.isLoggedIn = true;
    })
    .addCase(updateTransaction.fulfilled, (state, action) => {
     state.user.balance = action.payload.balance;
    })
    .addCase(currentUser.rejected, (state, { payload }) => {
     if (payload === 401) {
-     state.user = { name: null, email: null, photo: null, balance: 0 };
+     state.user = {
+      name: null,
+      email: null,
+      photo: null,
+      balance: 0,
+      isVerified: false,
+     };
      state.token = null;
      state.isLoggedIn = false;
      state.isConfirmLogout = false;
@@ -98,6 +125,21 @@ const authSlice = createSlice({
    .addCase(updateUser.fulfilled, (state, action) => {
     state.user.photo = action.payload.data.photo;
     state.user.name = action.payload.data.name;
+   })
+
+   // eslint-disable-next-line no-unused-vars
+   .addCase(verifyEmailThunk.fulfilled, (state, _action) => {
+    state.user.isVerified = true;
+   })
+
+   // eslint-disable-next-line no-unused-vars
+   .addCase(requestPasswordResetThunk.fulfilled, (_state, _action) => {
+    // No additional logic needed, toast shows message
+   })
+
+   // eslint-disable-next-line no-unused-vars
+   .addCase(resetPasswordThunk.fulfilled, (_state, _action) => {
+    // No additional logic needed, toast shows message
    });
  },
 });

@@ -9,11 +9,14 @@ export const registerThunk = createAsyncThunk(
   try {
    const { data } = await useAxios().post("/auth/register", credentials);
 
-   toast.success(`Welcome, ${data.data.user.name}!`, toasterCustomStyles);
+   toast.success(
+    "Registration successful! Please check your email to verify your account.",
+    toasterCustomStyles
+   );
+
    return data.data;
   } catch (error) {
    const status = error.response?.status;
-
    const backendMessage = error.response?.data?.message;
    let message = "Something went wrong. Please try again later.";
 
@@ -37,19 +40,19 @@ export const loginThunk = createAsyncThunk(
  async (credentials, thunkAPI) => {
   try {
    const { data } = await useAxios().post("/auth/login", credentials);
-
    toast.success(`Welcome back, ${data.data.user.name}!`, toasterCustomStyles);
    return data.data;
   } catch (error) {
    const status = error.response?.status;
-
    const backendMessage = error.response?.data?.message;
    let message = "Something went wrong. Please try again later.";
 
    if (status === 400) {
     message = backendMessage || "Invalid request data";
    } else if (status === 401) {
-    message = backendMessage || "Unauthorized";
+    message = backendMessage || "Email or password is incorrect";
+   } else if (status === 403) {
+    message = backendMessage || "Please verify your email to log in.";
    } else if (status === 404) {
     message = backendMessage || "Not Found";
    } else if (status === 500) {
@@ -70,7 +73,17 @@ export const logoutUser = createAsyncThunk(
    const { data } = await useAxios(token).post("/auth/logout");
    return data;
   } catch (error) {
-   return thunkApi.rejectWithValue(error.response?.status || 500);
+   const status = error.response?.status;
+   const backendMessage = error.response?.data?.message;
+   let message = "Logout failed. Please try again.";
+
+   if (status === 401) {
+    message = backendMessage || "Authentication failed. Please log in again.";
+   } else if (status === 500) {
+    message = backendMessage || "Server error during logout.";
+   }
+   toast.error(message, toasterCustomStyles);
+   return thunkApi.rejectWithValue(status || message);
   }
  }
 );
@@ -83,7 +96,13 @@ export const currentUser = createAsyncThunk(
    const { data } = await useAxios(token).get("/users/current");
    return data;
   } catch (error) {
-   return thunkApi.rejectWithValue(error.status);
+   const status = error.response?.status;
+   const message =
+    error.response?.data?.message ||
+    error.message ||
+    "Failed to fetch user data.";
+   toast.error(message, toasterCustomStyles);
+   return thunkApi.rejectWithValue(status || message);
   }
  }
 );
@@ -127,6 +146,73 @@ export const updateUser = createAsyncThunk(
 
    toast.error(message, toasterCustomStyles);
    return thunkApi.rejectWithValue(message);
+  }
+ }
+);
+
+export const verifyEmailThunk = createAsyncThunk(
+ "auth/verifyEmail",
+ async (token, thunkAPI) => {
+  try {
+   const { data } = await useAxios().get(`/auth/verify?token=${token}`);
+   toast.success(
+    "Your email has been successfully verified!",
+    toasterCustomStyles
+   );
+   return data;
+  } catch (error) {
+   const backendMessage = error.response?.data?.message;
+   const message =
+    backendMessage ||
+    "Failed to verify email. Please try again or contact support.";
+   toast.error(message, toasterCustomStyles);
+   return thunkAPI.rejectWithValue(message);
+  }
+ }
+);
+
+export const requestPasswordResetThunk = createAsyncThunk(
+ "auth/requestPasswordReset",
+ async (email, thunkAPI) => {
+  try {
+   const { data } = await useAxios().post("/auth/request-reset-password", {
+    email,
+   });
+   toast.success(
+    "If an account with that email exists, a password reset link has been sent.",
+    toasterCustomStyles
+   );
+   return data;
+  } catch (error) {
+   const backendMessage = error.response?.data?.message;
+   const message =
+    backendMessage || "Failed to send password reset link. Please try again.";
+   toast.error(message, toasterCustomStyles);
+   return thunkAPI.rejectWithValue(message);
+  }
+ }
+);
+
+export const resetPasswordThunk = createAsyncThunk(
+ "auth/resetPassword",
+ async ({ token, newPassword }, thunkAPI) => {
+  try {
+   const { data } = await useAxios().post(
+    `/auth/reset-password?token=${token}`,
+    { newPassword }
+   );
+   toast.success(
+    "Your password has been successfully reset. You can now log in.",
+    toasterCustomStyles
+   );
+   return data;
+  } catch (error) {
+   const backendMessage = error.response?.data?.message;
+   const message =
+    backendMessage ||
+    "Failed to reset password. The link might be invalid or expired.";
+   toast.error(message, toasterCustomStyles);
+   return thunkAPI.rejectWithValue(message);
   }
  }
 );

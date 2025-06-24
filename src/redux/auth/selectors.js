@@ -9,3 +9,5 @@ export const selectBalance = (state) => state.auth.user.balance || 0;
 export const selectConfirmLogout = (state) => state.auth.isConfirmLogout;
 
 export const selectUserProfile = (state) => state.auth.isUserOpen;
+
+export const selectIsUserVerified = (state) => state.auth.user.isVerified;
