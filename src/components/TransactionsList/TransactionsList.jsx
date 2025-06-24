@@ -1,5 +1,7 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
+import ReactPaginate from "react-paginate";
+
 import { selectTransactions } from "../../redux/transactions/selectors";
 import s from "./TransactionsList.module.css";
 import useMedia from "../../helpers/useMedia";
@@ -13,7 +15,6 @@ import {
  setPage,
  useTransactionsPagination,
 } from "../../redux/transactions/slice";
-import ReactPaginate from "react-paginate";
 
 const columns = ["Date", "Type", "Category", "Comment", "Sum", "", ""];
 
@@ -44,6 +45,9 @@ function TransactionsList() {
   dispatch(setPage(data.selected + 1));
  };
 
+ // Визначимо, чи показувати пагінацію
+ const shouldShowPagination = pagination.totalPage > 0;
+
  if (isMobile) {
   return (
    <div className={s.mobileContainer}>
@@ -56,21 +60,27 @@ function TransactionsList() {
       <EmptyStateMessage />
      )}
     </div>
-    <div>
-     <ReactPaginate
-      breakLabel="..."
-      nextLabel="next >"
-      onPageChange={handlePageClick}
-      pageRangeDisplayed={1}
-      pageCount={pagination.totalPage}
-      previousLabel="< previous"
-      renderOnZeroPageCount={null}
-      activeClassName={s.pageActive}
-      disabledClassName={s.pageButtonDisabled}
-      className={s.pageContainer}
-      forcePage={pagination.page - 1}
-     />
-    </div>
+    {/* Умовний рендеринг пагінації для мобільних */}
+    {shouldShowPagination && (
+     <div>
+      <ReactPaginate
+       breakLabel="..."
+       nextLabel="next >"
+       onPageChange={handlePageClick}
+       pageRangeDisplayed={1}
+       pageCount={pagination.totalPage}
+       previousLabel="< previous"
+       renderOnZeroPageCount={null}
+       activeClassName={s.pageActive}
+       disabledClassName={s.pageButtonDisabled}
+       className={s.pageContainer}
+       // Переконайтеся, що forcePage не виходить за межі, якщо totalPage === 0,
+       // але оскільки ми вже робимо умовний рендеринг, це стає менш критичним.
+       // Math.max(0, pagination.page - 1) гарантує, що forcePage не буде від'ємним.
+       forcePage={Math.max(0, pagination.page - 1)}
+      />
+     </div>
+    )}
    </div>
   );
  }
@@ -99,21 +109,24 @@ function TransactionsList() {
      )}
     </tbody>
    </table>
-   <div>
-    <ReactPaginate
-     breakLabel="..."
-     nextLabel="next >"
-     onPageChange={handlePageClick}
-     pageRangeDisplayed={1}
-     pageCount={pagination.totalPage}
-     previousLabel="< previous"
-     renderOnZeroPageCount={null}
-     activeClassName={s.pageActive}
-     disabledClassName={s.pageButtonDisabled}
-     className={s.pageContainer}
-     forcePage={pagination.page - 1}
-    />
-   </div>
+   {/* Умовний рендеринг пагінації для десктопу */}
+   {shouldShowPagination && (
+    <div>
+     <ReactPaginate
+      breakLabel="..."
+      nextLabel="next >"
+      onPageChange={handlePageClick}
+      pageRangeDisplayed={1}
+      pageCount={pagination.totalPage}
+      previousLabel="< previous"
+      renderOnZeroPageCount={null}
+      activeClassName={s.pageActive}
+      disabledClassName={s.pageButtonDisabled}
+      className={s.pageContainer}
+      forcePage={Math.max(0, pagination.page - 1)}
+     />
+    </div>
+   )}
   </div>
  );
 }
