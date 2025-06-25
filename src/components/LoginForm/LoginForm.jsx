@@ -64,7 +64,7 @@ const LoginForm = () => {
        <MdEmail size={24} className={s.icon} />
        <input
         type="email"
-        placeholder="E-mail"
+        placeholder="Email"
         className={s.regInput}
         {...register("email")}
         autoComplete="email"

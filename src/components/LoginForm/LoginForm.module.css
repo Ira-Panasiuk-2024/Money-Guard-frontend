@@ -29,8 +29,8 @@
 }
 
 @media screen and (min-resolution: 192dpi),
-  (-webkit-min-device-pixel-ratio: 2),
-  (min-resolution: 2dppx) {
+(-webkit-min-device-pixel-ratio: 2),
+(min-resolution: 2dppx) {
   .loginContainer {
     background-image: url("../../assets/img/ellipse_19@2x.png");
   }
@@ -124,7 +124,7 @@
 
 .error {
   color: var(--income-color);
-  font-size: 9px;
+  font-size: 14px;
   margin-top: 2px;
   height: 20px;
 }
@@ -169,7 +169,7 @@
 @media screen and (min-width: 768px) {
   .loginForm {
     width: 533px;
-    height: 570px;
+    height: 630px;
     padding: 80px 62px;
   }
 
@@ -204,11 +204,11 @@
   }
 
   @media screen and (min-resolution: 192dpi),
-    (-webkit-min-device-pixel-ratio: 2),
-    (min-resolution: 2dppx) {
+  (-webkit-min-device-pixel-ratio: 2),
+  (min-resolution: 2dppx) {
     .loginContainer {
       background-image: url("../../assets/img/ellipse_19@2x.png"),
-      url("../../assets/img/reg_form_t@2x.png");
+        url("../../assets/img/reg_form_t@2x.png");
     }
   }
 }

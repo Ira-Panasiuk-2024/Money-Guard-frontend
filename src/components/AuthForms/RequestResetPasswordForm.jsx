@@ -30,37 +30,44 @@ const RequestResetPasswordForm = () => {
  };
 
  return (
-  <div className={s.container}>
+  <div className={s.requestResetPasswordContainer}>
    <form onSubmit={handleSubmit(onSubmit)} className={s.form}>
     <div className={s.logoWrapper}>
      <Logo className={s.iconLogo} />
     </div>
-    <h2 className={s.title}>Forgot Your Password?</h2>
-    <p className={s.description}>
-     Enter your email address below and we will send you a link to reset your
-     password.
-    </p>
+
+    <div className={s.formWrapper}>
+     <h2 className={s.title}>Forgot Your Password?</h2>
+     <p className={s.description}>
+      Enter your email address below and we will send you a link to reset your
+      password.
+     </p>
+    </div>
+
     <label className={s.label}>
      <div className={s.inputContainer}>
       <MdEmail size={24} className={s.icon} />
       <input
        type="email"
-       placeholder="E-mail"
-       className={s.input}
+       placeholder="Email"
+       className={s.regInput}
        {...register("email")}
        autoComplete="email"
       />
      </div>
+
      <div className={s.errorWrapper}>
       {errors.email && <p className={s.error}>{errors.email.message}</p>}
      </div>
     </label>
+
     <Button
      type="submit"
      text="Send Reset Link"
      className={s.button}
      disabled={isSubmitting || isLoading}
     />
+
     <Link to="/login" className={s.link}>
      Back to Login
     </Link>

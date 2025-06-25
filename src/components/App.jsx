@@ -15,23 +15,31 @@ import UserModal from "./UserModal/UserModal.jsx";
 import { useAuth } from "../redux/auth/slice.js";
 
 const EmailVerificationPage = lazy(() =>
- import("../pages/EmailVerificationPage/EmailVerificationPage.jsx")
+ import("../pages/EmailVerificationPage/EmailVerificationPage")
 );
-const RequestResetPasswordForm = lazy(() =>
- import("../components/AuthForms/RequestResetPasswordForm.jsx")
+
+const RequestResetPasswordFormPage = lazy(() =>
+ import("../pages/RequestResetPasswordFormPage/RequestResetPasswordFormPage")
 );
-const ResetPasswordForm = lazy(() =>
- import("../components/AuthForms/ResetPasswordForm.jsx")
+
+const ResetPasswordFormPage = lazy(() =>
+ import("../pages/ResetPasswordFormPage/ResetPasswordFormPage")
 );
+
 const Login = lazy(() => import("../pages/LoginPage/LoginPage"));
+
 const Dashboard = lazy(() => import("../pages/DashboardPage/DashboardPage"));
+
 const Registration = lazy(() =>
  import("../pages/RegistrationPage/RegistrationPage")
 );
+
 const HomeTab = lazy(() => import("../pages/DashboardPage/HomeTab/HomeTab"));
+
 const StatisticsTab = lazy(() =>
  import("../pages/DashboardPage/StatisticsTab/StatisticsTab")
 );
+
 const CurrencyTab = lazy(() =>
  import("../pages/DashboardPage/CurrencyTab/CurrencyTab")
 );
@@ -69,10 +77,10 @@ function App() {
 
      <Route
       path="/request-reset-password"
-      element={<RequestResetPasswordForm />}
+      element={<RequestResetPasswordFormPage />}
      />
 
-     <Route path="/reset-password" element={<ResetPasswordForm />} />
+     <Route path="/reset-password" element={<ResetPasswordFormPage />} />
 
      <Route
       path="/dashboard"
