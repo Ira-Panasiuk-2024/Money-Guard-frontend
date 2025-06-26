@@ -1,54 +1,95 @@
+.deleteContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.header {
+    position: fixed;
+    top: 0;
+    z-index: 10;
+    width: 100%;
+}
+
 .contentWrapper {
- padding: 20px;
- text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
 }
 
 .message {
- font-size: 18px;
- margin-bottom: 20px;
- color: var(--text-color);
+    font-weight: 400;
+    font-size: 22px;
+    text-align: left;
+    margin-bottom: 40px;
+    color: var(--text-color);
+    width: 280px;
+}
+
+.box {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 40px;
 }
 
 .details {
- font-size: 14px;
- color: var(--text-color-secondary);
- margin-bottom: 20px;
+    font-weight: 400;
+    font-size: 18px;
+    text-align: left;
+    color: var(--text-color-secondary);
+}
+
+.accent {
+    color: var(--green);
+    margin-left: 4px;
 }
 
 .buttonGroup {
- display: flex;
- flex-direction: column;
- gap: 20px;
- width: 280px;
- margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 280px;
+    margin: 0 auto;
 }
 
 .confirmButton {
- background-color: var(--expense-color);
- color: var(--white-color);
- border: none;
- padding: 12px 24px;
- border-radius: 20px;
- cursor: pointer;
- font-size: 18px;
- font-weight: 400;
- transition: background-color 0.3s ease;
- width: 100%;
-}
-
-.confirmButton:hover {
- background-color: var(--expense-color-darker);
+    background-color: var(--expense-color);
+    color: var(--white-color);
+    padding: 12px 24px;
+    border-radius: 20px;
+    font-size: 18px;
+    font-weight: 400;
+    height: 50px;
 }
 
 @media (min-width: 768px) {
- .buttonGroup {
-  flex-direction: row;
-  justify-content: center;
-  gap: 30px;
-  width: auto;
- }
+    .header {
+        display: none;
+    }
 
- .confirmButton {
-  width: 180px;
- }
+    .box {
+        align-items: center;
+    }
+
+    .message {
+        font-size: 24px;
+        width: 342px;
+        text-align: center;
+    }
+
+    .details {
+        font-size: 20px;
+        width: 342px;
+        text-align: center;
+    }
+
+    .buttonGroup {
+        flex-direction: column;
+        justify-content: center;
+        gap: 30px;
+        width: 300px;
+    }
 }

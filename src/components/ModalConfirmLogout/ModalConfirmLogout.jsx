@@ -8,11 +8,13 @@ import ModalWindow from "../ModalWindow/ModalWindow";
 import ButtonCancel from "../ButtonCancel/ButtonCancel";
 import Logo from "../Logo/Logo";
 import useMedia from "../../helpers/useMedia";
+import Header from "../Header/Header";
 
 const ModalConfirmLogout = () => {
  const dispatch = useDispatch();
  const isConfirm = useSelector(selectConfirmLogout);
  const { isBigScreen } = useMedia();
+
  return (
   <ModalWindow
    closeModal={() => dispatch(setConfirmLogout(false))}
@@ -20,6 +22,7 @@ const ModalConfirmLogout = () => {
    showIcon={false}
   >
    <div className={s.modalBox}>
+    <div className={s.header}>{!isBigScreen && <Header />}</div>
     <div className={s.boxIcon}>
      {isBigScreen && <Logo />}
      <p className={s.text}>Are you sure you want to log out?</p>

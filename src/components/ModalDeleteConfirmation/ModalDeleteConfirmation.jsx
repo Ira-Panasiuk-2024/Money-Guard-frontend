@@ -46,7 +46,6 @@ const ModalDeleteConfirmation = () => {
   <ModalWindow
    closeModal={closeModal}
    modalIsOpen={!!transactionToDelete}
-   title="Confirm Deletion"
    showIcon={isMobile ? false : true}
   >
    <DeleteConfirmationContent
