@@ -1,6 +1,7 @@
 import Button from "../Button/Button";
 import ButtonCancel from "../ButtonCancel/ButtonCancel";
 import Header from "../Header/Header";
+import Logo from "../Logo/Logo";
 import css from "./DeleteConfirmationContent.module.css";
 
 const DeleteConfirmationContent = ({ onConfirm, onCancel, transaction }) => {
@@ -12,6 +13,10 @@ const DeleteConfirmationContent = ({ onConfirm, onCancel, transaction }) => {
   <div className={css.deleteContainer}>
    <div className={css.header}>
     <Header />
+   </div>
+
+   <div className={css.logo}>
+    <Logo />
    </div>
 
    <div className={css.contentWrapper}>

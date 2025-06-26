@@ -22,6 +22,7 @@ import { AddTransactionSchema } from "../../helpers/addTransactionSchema";
 import s from "./AddTransactionForm.module.css";
 import Switch from "../Switch/Switch";
 import Button from "../Button/Button";
+import ButtonCancel from "../ButtonCancel/ButtonCancel";
 
 const AddTransactionForm = ({ closeModal }) => {
  const [startDate, setStartDate] = useState(new Date());
@@ -225,7 +226,11 @@ const AddTransactionForm = ({ closeModal }) => {
       {errors.comment && <p className={s.errors}>{errors.comment.message}</p>}
      </div>
     </div>
-    <Button className={s.add_btn} text="ADD" />
+
+    <div className={s.buttonGroup}>
+     <Button text="ADD" className={s.submitButton} type="submit" />
+     <ButtonCancel onClick={() => dispatch(setAddTransaction(false))} />
+    </div>
    </form>
   </div>
  );
