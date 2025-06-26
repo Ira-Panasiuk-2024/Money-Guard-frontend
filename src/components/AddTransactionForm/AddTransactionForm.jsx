@@ -2,11 +2,11 @@ import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { useEffect, useState } from "react"; // Додано useEffect
+import { useEffect, useState, useRef } from "react"; // Додано useRef
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { IoIosArrowDown } from "react-icons/io";
-import { BiCalendar } from "react-icons/bi";
+
 import {
  selectPage,
  selectIncomeCategories,
@@ -26,6 +26,8 @@ import Button from "../Button/Button";
 const AddTransactionForm = ({ closeModal }) => {
  const [startDate, setStartDate] = useState(new Date());
  const [isChecked, setIsChecked] = useState(true);
+ const [isSelectOpen, setIsSelectOpen] = useState(false);
+ const selectRef = useRef(null);
 
  const incomeCategories = useSelector(selectIncomeCategories);
  const expenseCategories = useSelector(selectExpenseCategories);
@@ -75,6 +77,20 @@ const AddTransactionForm = ({ closeModal }) => {
   }
  }, [isChecked, availableCategories, setValue, getValues]);
 
+ const handleSelectFocus = () => {
+  setIsSelectOpen(true);
+ };
+
+ const handleSelectBlur = () => {
+  setIsSelectOpen(false);
+ };
+
+ const handleSelectChange = (e) => {
+  setIsSelectOpen(false);
+  const { onChange } = register("categoryId");
+  onChange(e);
+ };
+
  const onSubmit = async (data) => {
   const newTransaction = {
    type: isChecked ? "expense" : "income",
@@ -121,10 +137,14 @@ const AddTransactionForm = ({ closeModal }) => {
      <>
       <div className={s.select_box}>
        <select
+        ref={selectRef}
         className={s.select}
         name="categoryId"
         defaultValue=""
         {...register("categoryId")}
+        onFocus={handleSelectFocus}
+        onBlur={handleSelectBlur}
+        onChange={handleSelectChange}
         disabled={availableCategories.length === 0}
        >
         <option value="" disabled hidden>
@@ -139,7 +159,9 @@ const AddTransactionForm = ({ closeModal }) => {
          </option>
         ))}
        </select>
-       <IoIosArrowDown className={s.select_icon} />
+       <IoIosArrowDown
+        className={`${s.select_icon} ${isSelectOpen ? s.select_icon_open : ""}`}
+       />
       </div>
       <div className={s.error_box}>
        {errors.categoryId && (
