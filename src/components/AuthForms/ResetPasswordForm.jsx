@@ -79,81 +79,86 @@ const ResetPasswordForm = () => {
  };
 
  return (
-  <div className={s.container}>
+  <div className={s.resetPasswordContainer}>
    <form onSubmit={handleSubmit(onSubmit)} className={s.form}>
     <div className={s.logoWrapper}>
      <Logo className={s.iconLogo} />
     </div>
-    <h2 className={s.title}>Reset Your Password</h2>
-    <p className={s.description}>Please enter your new password below.</p>
 
-    <label className={s.label}>
-     <div className={s.inputContainer}>
-      <PiLockFill size={24} className={s.icon} />
-      <input
-       type={showPassword ? "text" : "password"}
-       placeholder="New Password"
-       autoComplete="new-password"
-       className={s.input}
-       {...register("newPassword", { onChange: handlePasswordChange })}
-      />
-      {isPasswordFilled && (
-       <button
-        type="button"
-        className={s.togglePassButton}
-        onClick={togglePasswordVisibility}
-       >
-        {showPassword ? (
-         <AiOutlineEye size={20} className={s.eyeIcon} />
-        ) : (
-         <AiOutlineEyeInvisible size={20} className={s.eyeIcon} />
-        )}
-       </button>
-      )}
-     </div>
-     <div className={s.errorWrapper}>
-      {errors.newPassword && (
-       <p className={s.error}>{errors.newPassword.message}</p>
-      )}
-     </div>
-    </label>
+    <div className={s.formWrapper}>
+     <h2 className={s.title}>Reset Your Password</h2>
+     <p className={s.description}>Please enter your new password below.</p>
+    </div>
 
-    <label className={s.label}>
-     <div className={s.inputContainer}>
-      <PiLockFill size={24} className={s.icon} />
-      <input
-       type={showConfirmPassword ? "text" : "password"}
-       placeholder="Confirm New Password"
-       autoComplete="new-password"
-       className={s.input}
-       {...register("confirmNewPassword", {
-        onChange: handleConfirmPasswordChange,
-       })}
+    <div className={s.boxLabel}>
+     <label className={s.label}>
+      <div className={s.inputContainer}>
+       <PiLockFill size={24} className={s.icon} />
+       <input
+        type={showPassword ? "text" : "password"}
+        placeholder="New Password"
+        autoComplete="new-password"
+        className={s.regInput}
+        {...register("newPassword", { onChange: handlePasswordChange })}
+       />
+       {isPasswordFilled && (
+        <button
+         type="button"
+         className={s.togglePassButton}
+         onClick={togglePasswordVisibility}
+        >
+         {showPassword ? (
+          <AiOutlineEye size={20} className={s.eyeIcon} />
+         ) : (
+          <AiOutlineEyeInvisible size={20} className={s.eyeIcon} />
+         )}
+        </button>
+       )}
+      </div>
+      <div className={s.errorWrapper}>
+       {errors.newPassword && (
+        <p className={s.error}>{errors.newPassword.message}</p>
+       )}
+      </div>
+     </label>
+
+     <label className={s.label}>
+      <div className={s.inputContainer}>
+       <PiLockFill size={24} className={s.icon} />
+       <input
+        type={showConfirmPassword ? "text" : "password"}
+        placeholder="Confirm New Password"
+        autoComplete="new-password"
+        className={s.regInput}
+        {...register("confirmNewPassword", {
+         onChange: handleConfirmPasswordChange,
+        })}
+       />
+       {isConfirmPasswordFilled && (
+        <button
+         type="button"
+         className={s.togglePassButton}
+         onClick={toggleConfirmPasswordVisibility}
+        >
+         {showConfirmPassword ? (
+          <AiOutlineEye size={20} className={s.eyeIcon} />
+         ) : (
+          <AiOutlineEyeInvisible size={20} className={s.eyeIcon} />
+         )}
+        </button>
+       )}
+      </div>
+      <div className={s.errorWrapper}>
+       {errors.confirmNewPassword && (
+        <p className={s.error}>{errors.confirmNewPassword.message}</p>
+       )}
+      </div>
+      <ProgressBar
+       password={newPassword}
+       confirmPassword={confirmNewPasswordValue}
       />
-      {isConfirmPasswordFilled && (
-       <button
-        type="button"
-        className={s.togglePassButton}
-        onClick={toggleConfirmPasswordVisibility}
-       >
-        {showConfirmPassword ? (
-         <AiOutlineEye size={20} className={s.eyeIcon} />
-        ) : (
-         <AiOutlineEyeInvisible size={20} className={s.eyeIcon} />
-        )}
-       </button>
-      )}
-     </div>
-     <div className={s.errorWrapper}>
-      {errors.confirmNewPassword && (
-       <p className={s.error}>{errors.confirmNewPassword.message}</p>
-      )}
-     </div>
-     <ProgressBar
-      password={newPassword}
-      confirmPassword={confirmNewPasswordValue}
-     />
-    </label>
+     </label>
+    </div>
 
     <Button
      type="submit"
