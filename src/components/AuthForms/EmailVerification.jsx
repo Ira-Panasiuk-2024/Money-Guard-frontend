@@ -40,7 +40,6 @@ const EmailVerification = () => {
   <div className={s.emailVerificationContainer}>
    <h1 className={s.title}>Verifying your email...</h1>
    <p className={s.text}>Please wait while we confirm your email address.</p>
-
    <Loader />
   </div>
  );
