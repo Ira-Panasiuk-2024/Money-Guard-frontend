@@ -121,7 +121,6 @@ const EditTransactionForm = ({ transaction }) => {
     getTransactions({ page: pagination.page, perPage: pagination.perPage })
    );
   } catch (error) {
-   console.error(`Failed to update transaction:`, error);
    const errorMessage = error.message || "Something went wrong";
    if (error.data?.message && error.data.message.includes("does not match")) {
     toast.error(

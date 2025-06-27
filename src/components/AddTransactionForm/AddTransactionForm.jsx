@@ -6,6 +6,7 @@ import { useEffect, useState, useRef } from "react"; // Додано useRef
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { IoIosArrowDown } from "react-icons/io";
+import { BiCalendar } from "react-icons/bi";
 
 import {
  selectPage,
@@ -28,6 +29,7 @@ const AddTransactionForm = ({ closeModal }) => {
  const [startDate, setStartDate] = useState(new Date());
  const [isChecked, setIsChecked] = useState(true);
  const [isSelectOpen, setIsSelectOpen] = useState(false);
+ const [isCalendarOpen, setIsCalendarOpen] = useState(false);
  const selectRef = useRef(null);
 
  const incomeCategories = useSelector(selectIncomeCategories);
@@ -92,6 +94,10 @@ const AddTransactionForm = ({ closeModal }) => {
   onChange(e);
  };
 
+ const handleCalendarClick = () => {
+  setIsCalendarOpen(!isCalendarOpen);
+ };
+
  const onSubmit = async (data) => {
   const newTransaction = {
    type: isChecked ? "expense" : "income",
@@ -110,8 +116,6 @@ const AddTransactionForm = ({ closeModal }) => {
     closeModal(() => dispatch(setAddTransaction(false)));
    })
    .catch((error) => {
-    console.error(`Failed to add transaction:`, error);
-
     const errorMessage = error.message || "Something went wrong";
     if (error.data?.message && error.data.message.includes("does not match")) {
      toast.error(
@@ -193,21 +197,29 @@ const AddTransactionForm = ({ closeModal }) => {
        control={control}
        className={s.controller}
        render={({ field }) => (
-        <>
+        <div className={s.date_picker_container}>
          <DatePicker
           {...field}
           selected={field.value || startDate}
           onChange={(date) => {
            field.onChange(date);
            setStartDate(date);
+           setIsCalendarOpen(false);
           }}
           dateFormat="dd.MM.yyyy"
           className={s.DatePicker}
           maxDate={new Date()}
+          open={isCalendarOpen}
+          onClickOutside={() => setIsCalendarOpen(false)}
+          onFocus={() => setIsCalendarOpen(true)}
          />
-        </>
+         <div className={s.date_icon} onClick={handleCalendarClick}>
+          <BiCalendar size={24} />
+         </div>
+        </div>
        )}
       />
+
       <div className={s.error_box}>
        {errors.date && <p className={s.errors}>{errors.date.message}</p>}
       </div>

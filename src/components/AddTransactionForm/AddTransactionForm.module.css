@@ -1,6 +1,5 @@
 .wrapper {
   width: 100%;
-  padding: 32px 20px 40px 20px;
   padding-top: 32px;
 }
 
@@ -21,14 +20,17 @@
   padding: 8px;
   cursor: pointer;
   transition: border-bottom 0.3s var(--main-transform);
+  width: 280px;
+  height: 35px;
 }
 
 .select {
   appearance: none;
   outline: none;
-  width: 100%;
   position: relative;
   z-index: 1;
+  font-weight: 400;
+  font-size: 18px;
 }
 
 .sum::-webkit-outer-spin-button,
@@ -59,6 +61,7 @@
   box-shadow: var(--modal-shadow);
   color: var(--main-color);
   border: none;
+  cursor: pointer;
 }
 
 .select_error_box {
@@ -75,22 +78,20 @@
 }
 
 .select_box {
-  width: 100%;
   position: relative;
+  font-weight: 400;
+  font-size: 18px;
 }
 
 .select_icon {
   position: absolute;
-  top: 8px;
-  right: 8px;
+  top: 10px;
+  right: 12px;
   z-index: 0;
   color: var(--main-color);
   transition: transform 0.3s var(--main-transform),
     color 0.3s var(--main-transform);
   pointer-events: none;
-}
-
-.select_icon {
   transform: rotateX(0deg);
 }
 
@@ -106,6 +107,7 @@
 .comment::placeholder,
 .sum::placeholder {
   color: var(--icon-hover);
+  text-align: left;
 }
 
 .error_box {
@@ -116,49 +118,59 @@
 .box_sum_date {
   width: 100%;
   display: flex;
-  gap: 32px;
-  align-items: flex-start;
-  justify-content: space-between;
+  flex-direction: column;
+  gap: 0;
+  align-items: stretch;
+  justify-content: flex-start;
+}
+
+.sum_box {
+  width: 100%;
 }
 
 .sum {
   font-weight: 600;
   font-size: 18px;
-  text-align: center;
-  width: 100%;
+  text-align: left;
 }
 
 .controller {
   width: 100%;
 }
 
+.date_picker_container {
+  position: relative;
+}
+
 .DatePicker {
-  width: 100%;
   font-size: 18px;
   font-weight: 400;
-  position: relative;
-  z-index: 1;
 }
 
 .comment_error_box {
-  margin-bottom: 30px;
+  margin-bottom: 40px;
 }
 
 .comment {
   width: 100%;
+  font-weight: 400;
+  font-size: 18px;
+  text-align: left;
 }
 
 .date_box {
-  margin-bottom: 30px;
+  margin-bottom: 40px;
   position: relative;
+  width: 100%;
 }
 
 .date_icon {
   color: var(--icon-violet);
   position: absolute;
-  top: 8px;
+  top: 4px;
   right: 8px;
   z-index: 0;
+  cursor: pointer;
 }
 
 .buttonGroup {
@@ -195,48 +207,36 @@
   border-bottom: 1px solid var(--form-color);
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (min-width: 768px) {
   .wrapper {
     width: 540px;
-    padding-top: 40px 73px;
+    padding: 40px 73px 0 73px;
+  }
+
+  .select,
+  .comment {
+    width: 394px;
+  }
+
+  .sum,
+  .DatePicker {
+    width: 181px;
+  }
+
+  .box_sum_date {
+    margin-bottom: 40px;
+    width: 394px;
+    display: flex;
+    flex-direction: row;
+    gap: 32px;
+  }
+
+  .date_box {
+    margin-bottom: 0;
+    width: 181px;
   }
 
   .submitButton {
     width: 300px;
-    height: 50px;
-  }
-
-  .box_sum_date {
-    flex-direction: column;
-    gap: 0;
-    align-items: flex-start;
-    justify-content: space-between;
-  }
-
-  .date_box {
-    width: 100%;
-  }
-
-  .react-datepicker-wrapper {
-    width: 100%;
-  }
-
-  .sum {
-    text-align: start;
-  }
-
-  .select,
-  .sum,
-  .DatePicker,
-  .comment {
-    padding: 8px 20px;
-  }
-
-  .select_icon {
-    right: 20px;
-  }
-
-  .date_icon {
-    right: 20px;
   }
 }

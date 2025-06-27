@@ -35,7 +35,6 @@ const ModalDeleteConfirmation = () => {
    dispatch(getTransactions(page));
    closeModal();
   } catch (error) {
-   console.error("Error deleting transaction:", error);
    const errorMessage = error.message || "Failed to delete transaction";
    toast.error(`Error: ${errorMessage}`);
    closeModal();
