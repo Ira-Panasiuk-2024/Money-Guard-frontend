@@ -4,6 +4,9 @@ import ModalWindow from "../ModalWindow/ModalWindow";
 import { selectCurrentTransaction } from "../../redux/transactions/selectors";
 import useMedia from "../../helpers/useMedia";
 import { setEditTransaction } from "../../redux/transactions/slice";
+import Header from "../Header/Header";
+import s from "./ModalEditTransaction.module.css";
+
 const ModalEditTransaction = () => {
  const dispatch = useDispatch();
  const { isMobile } = useMedia();
@@ -12,10 +15,17 @@ const ModalEditTransaction = () => {
   <ModalWindow
    closeModal={() => dispatch(setEditTransaction(null))}
    modalIsOpen={!!transaction}
-   title="Edit transaction"
    showIcon={isMobile ? false : true}
   >
-   <EditTransactionForm transaction={transaction} />
+   <div className={s.modalBox}>
+    <div className={s.header}>
+     <Header />
+    </div>
+
+    <h2 className={s.title}>Edit transaction</h2>
+
+    <EditTransactionForm transaction={transaction} />
+   </div>
   </ModalWindow>
  );
 };

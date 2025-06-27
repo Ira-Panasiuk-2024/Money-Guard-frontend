@@ -72,7 +72,7 @@
 
 .errors {
   color: var(--income-color);
-  font-size: 9px;
+  font-size: 14px;
   margin-top: 2px;
   position: relative;
 }
@@ -156,6 +156,7 @@
   font-weight: 400;
   font-size: 18px;
   text-align: left;
+  height: 79px;
 }
 
 .date_box {
@@ -216,6 +217,10 @@
   .select,
   .comment {
     width: 394px;
+  }
+
+  .comment {
+    height: 35px;
   }
 
   .sum,
