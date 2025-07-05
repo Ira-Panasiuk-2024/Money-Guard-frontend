@@ -11,17 +11,20 @@ import {
 const StatisticsTable = () => {
  const expenseCategories = useSelector(selectExpenseCategories);
  const incomeCategories = useSelector(selectIncomeCategories);
-
  const totalIncome = useSelector(selectTotalIncome);
  const totalExpense = useSelector(selectTotalExpense);
-
  const chartType = useSelector(selectChartType);
 
  const currentCategories =
   chartType === "expenses" ? expenseCategories : incomeCategories;
 
  if (!currentCategories || currentCategories.length === 0) {
-  return <p className={styles.message}>No expense data for this period.</p>;
+  const noDataMessage =
+   chartType === "expenses"
+    ? "No expense data for this period."
+    : "No income data for this period.";
+
+  return <p className={styles.message}>{noDataMessage}</p>;
  }
 
  return (
